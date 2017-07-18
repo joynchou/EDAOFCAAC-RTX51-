@@ -1,0 +1,154 @@
+C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 09:56:42 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE MOTOR
+OBJECT MODULE PLACED IN .\MOTOR.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\DEVICES\MOTOR\DC_MOTOR\MOTOR.C LARGE BROWSE DEBUG OBJECTEXTE
+                    -ND PRINT(.\MOTOR.lst) TABS(2) OBJECT(.\MOTOR.obj)
+
+line level    source
+
+   1          /************************************************************
+   2          * 组织名称： (C), 1988-1999, Tech. Co., Ltd.
+   3          * 文件名称: MOTOR.C
+   4          * 作者:  周晨阳
+   5          * 版本:  1.3
+   6          * 日期:  17/4/29
+   7          * 描述:  和电机有关的控制函数都在这里，还有pid算法控制也在其中
+   8          * 主要函数及其功能 : // 主要函数及其功能
+   9          * 1. -------
+  10          * 历史修改记录: // 历史修改记录
+  11          * <作者> <时间> <版本 > <描述>
+  12          * 周晨阳 17/6/216 1.0 创建此描述
+  13          * 周晨阳 17/7/9   1.1 更新了数据结构，可以定义任意数量的电机
+  14          ***********************************************************/
+  15          #include "MOTOR.h"
+  16          #include "../../../BSP/STC15_PWM.h"
+  17          #include "../../../BSP/GPIO.h"
+  18          
+  19          #define DC_MOTOR
+  20          #ifdef DC_MOTOR
+  21          
+  22          struct DC_Motor
+  23          {
+  24            u8 state;
+  25            u8 speed;
+  26          
+  27          };
+  28          static struct DC_Motor g_DC_Motor[DC_MOTOR_NUM];
+  29          
+  30          /*************************************************
+  31          * 函数名称: void setMotorSpeed(bit motor,float speed)
+  32          * 描述: 设置电机速度函数
+  33          * 输入: motor：电机，头文件中定义
+  34                  speed：速度 0~1
+  35          * 其他说明:
+  36          *若要关闭电机请使用电机关闭函数，此函数无法关闭电机
+  37          *************************************************/
+  38          void setDC_MotorSpeed(u8 motor, float speed)
+  39          {
+  40   1      
+  41   1        if (speed > 0.95f)
+  42   1        {
+  43   2          speed = 0.95f;
+  44   2        }
+  45   1        if (speed < 0.05f)
+  46   1        {
+  47   2      
+  48   2          speed = 0.05f;
+  49   2        }
+  50   1      
+  51   1        //  PWM_duty(PWM_2,speed*0.65f);//根据不同电机乘于不同的增益
+  52   1        set_PWM_duty(motor + 4, speed);//根据不同电机乘于不同的增益
+  53   1        g_DC_Motor[motor].speed = speed;
+  54   1      }
+C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 09:56:42 PAGE 2   
+
+  55          void open_DC_Motor(u8 motor)
+  56          {
+  57   1        open_PWM_N(motor + 4);
+  58   1        g_DC_Motor[motor].state = ON;
+  59   1      }
+  60          void close_DC_Motor(u8 motor)
+  61          {
+  62   1        close_PWM_N(motor + 4);
+  63   1        g_DC_Motor[motor].state = OFF;
+  64   1      
+  65   1      
+  66   1      
+  67   1      }
+  68          bit getDC_MotorState(u8 motor)
+  69          {
+  70   1        return g_DC_Motor[motor].state;
+  71   1      
+  72   1      }
+  73          /*************************************************
+  74          * 函数名称: void    DC_MOTOR_config(void)
+  75          * 描述: 配置需要使用的pwm通道
+  76          * 输入: 无
+  77          * 返回值: 无
+  78          * 其他说明: 将会自动初始化相应的io引脚
+  79          *************************************************/
+  80          void    DC_MOTOR_config(void)
+  81          {
+  82   1        
+  83   1        GPIO_InitTypeDef    GPIO_InitStructure;     //结构定义
+  84   1        PWM_InitTypeDef  PWM_InitStructure;
+  85   1        GPIO_InitStructure.Mode = GPIO_PullUp;
+  86   1      
+  87   1      
+  88   1        GPIO_InitStructure.Pin = GPIO_Pin_3;    //PWM2
+  89   1        GPIO_Inilize(GPIO_P2, &GPIO_InitStructure);  //初始化
+  90   1      
+  91   1      
+  92   1      
+  93   1        GPIO_InitStructure.Pin = GPIO_Pin_2;    //PWM4
+  94   1        GPIO_Inilize(GPIO_P2, &GPIO_InitStructure);  //初始化
+  95   1        P22 = 1;
+  96   1        P23 = 1;
+  97   1      
+  98   1      
+  99   1        PWM_UNLOCK;
+ 100   1        PWM_InitStructure.PWM_GOTO_ADC = DISABLE;
+ 101   1        PWM_InitStructure.PWM_V_INIT = PWM_LOW;
+ 102   1        PWM_InitStructure.PWM_0ISR_EN = DISABLE;
+ 103   1        PWM_InitStructure.PWM_OUT_EN = ENABLE;
+ 104   1        PWM_InitStructure.PWM_UNUSUAL_EN = DISABLE;
+ 105   1        PWM_InitStructure.PWM_UNUSUAL_OUT = DISABLE;
+ 106   1        PWM_InitStructure.PWM_UNUSUAL_ISR_EN = DISABLE;
+ 107   1        PWM_InitStructure.PWM_UNUSUAL_CMP0_EN = DISABLE;
+ 108   1        PWM_InitStructure.PWM_UNUSUAL_P24_EN = DISABLE;
+ 109   1        PWM_InitStructure.PWM_CLOCK = PWM_Clock_NT;
+ 110   1        PWM_InitStructure.PWM_CLOCK_DIV = 0x00;
+ 111   1        PWM_InitStructure.PWM_SELECTx_IO = PWM_SELECT_N;
+ 112   1        PWM_InitStructure.PWM_ISRx_EN = DISABLE;
+ 113   1        PWM_InitStructure.PWM_T1x_EN = DISABLE;
+ 114   1        PWM_InitStructure.PWM_T2x_EN = DISABLE;
+ 115   1        PWM_InitStructure.PWM_EN = DISABLE;
+ 116   1        PWM_Inilize(PWM_4, &PWM_InitStructure);
+C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 09:56:42 PAGE 3   
+
+ 117   1        PWM_Inilize(PWM_5, &PWM_InitStructure);
+ 118   1      
+ 119   1        PWM_LOCK;
+ 120   1      
+ 121   1      
+ 122   1      }
+ 123          
+ 124          #endif
+ 125          
+ 126          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    328    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      4      25
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

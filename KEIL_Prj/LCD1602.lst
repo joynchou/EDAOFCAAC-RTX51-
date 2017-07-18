@@ -1,0 +1,111 @@
+C51 COMPILER V8.05a   LCD1602                                                              07/18/2017 09:56:42 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE LCD1602
+OBJECT MODULE PLACED IN .\LCD1602.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\DEVICES\DISPLAY\1602\LCD1602.c LARGE BROWSE DEBUG OBJECTEXTE
+                    -ND PRINT(.\LCD1602.lst) TABS(2) OBJECT(.\LCD1602.obj)
+
+line level    source
+
+   1          /************************************************************
+   2          * 组织名称：
+   3          * 文件名称: K:\单片机相关\电子大赛程序框架\HARDWARE\DEVICES\DISPLAY\1602\LCD1602.C
+   4          * 作者: 周晨阳    
+   5          * 版本: 1.0   
+   6          * 日期: 2017/07/11
+   7          * 描述: 1602的驱动程序
+   8          * 历史修改记录:
+   9          * <作者> <时间> <版本 > <描述>
+  10          * 
+  11          ***********************************************************/
+  12          
+  13          #include "LCD1602.h"
+  14          
+  15          //****************************************************
+  16          //写数据
+  17          //****************************************************
+  18          void LCD1602_write_char(unsigned char dat)
+  19          {
+  20   1        LCD1602_RS = 1;
+  21   1        delay_ms(1);  
+  22   1        LCD1602_PORT = dat;
+  23   1        LCD1602_EN = 1;
+  24   1        delay_ms(1);
+  25   1        LCD1602_EN = 0;
+  26   1      }
+  27          
+  28          //****************************************************
+  29          //连续写字符
+  30          //****************************************************
+  31          void LCD1602_write_word(unsigned char *s)
+  32          {
+  33   1        while(*s>0)
+  34   1        {
+  35   2          LCD1602_write_char(*s);
+  36   2          s++;
+  37   2        }
+  38   1      }
+  39          
+  40          void LCD1602_Init()
+  41          {
+  42   1        LCD1602_GPIO_config();
+  43   1        LCD1602_Backlight = 1;  //打开背光
+  44   1      
+  45   1      
+  46   1        LCD1602_EN = 0;
+  47   1        LCD1602_RW = 0;           //设置为写状态
+  48   1        LCD1602_write_com(0x38);      //显示模式设定
+  49   1        LCD1602_write_com(0x0c);      //开关显示、光标有无设置、光标闪烁设置
+  50   1        LCD1602_write_com(0x06);      //写一个字符后指针加一
+  51   1        LCD1602_write_com(0x01);      //清屏指令
+  52   1      }
+  53          
+  54          
+C51 COMPILER V8.05a   LCD1602                                                              07/18/2017 09:56:42 PAGE 2   
+
+  55          
+  56          //****************************************************
+  57          //写指令
+  58          //****************************************************
+  59          static void LCD1602_write_com(unsigned char com)
+  60          {
+  61   1        LCD1602_RS = 0;
+  62   1        delay_ms(1);
+  63   1        LCD1602_EN = 1;
+  64   1        LCD1602_PORT = com;
+  65   1        delay_ms(1);
+  66   1        LCD1602_EN = 0;
+  67   1      }
+  68          
+  69          static void LCD1602_GPIO_config()
+  70          {
+  71   1        P5M1 &= ~(1<<4);    //设置P5.4为推挽输出
+  72   1        P5M0 |= (1<<4);
+  73   1      
+  74   1        P5M1 &= ~(1<<0);    //设置P5.0为准双向IO
+  75   1        P5M0 &= ~(1<<0);
+  76   1      
+  77   1        P5M1 &= ~(1<<1);    //设置P5.1为准双向IO
+  78   1        P5M0 &= ~(1<<1);
+  79   1      
+  80   1        P5M1 &= ~(1<<2);    //设置P5.2为准双向IO
+  81   1        P5M0 &= ~(1<<2);
+  82   1      
+  83   1        P4M1 = 0X00;    //设置P4为准双向IO
+  84   1        P4M0 = 0X00;
+  85   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    162    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----       5
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

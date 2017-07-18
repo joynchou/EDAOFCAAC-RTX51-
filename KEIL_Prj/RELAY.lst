@@ -1,0 +1,47 @@
+C51 COMPILER V8.05a   RELAY                                                                07/18/2017 09:56:42 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE RELAY
+OBJECT MODULE PLACED IN .\RELAY.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\DEVICES\COMMON_DEVICES\RELAY\RELAY.C LARGE BROWSE DEBUG OBJE
+                    -CTEXTEND PRINT(.\RELAY.lst) TABS(2) OBJECT(.\RELAY.obj)
+
+line level    source
+
+   1          #include "RELAY.H"
+   2          #define RELAY_NUM 3
+   3          
+   4          typedef struct
+   5          {
+   6            u8 state;
+   7          }Relay;
+   8          
+   9          Relay relay[RELAY_NUM] ;
+  10          bit setRelay(u8 RELAY)
+  11          {
+  12   1        relay[RELAY].state=ON;
+  13   1        return 1;
+  14   1      }
+  15          bit unSetRelay(u8 RELAY)
+  16          {
+  17   1        relay[RELAY].state=OFF;
+  18   1        return 1;
+  19   1      }
+  20          void relay_Init(void)
+  21          {
+  22   1        
+  23   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     30    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      3    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,154 @@
+C51 COMPILER V8.05a   ADC                                                                  07/18/2017 09:56:43 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE ADC
+OBJECT MODULE PLACED IN .\ADC.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\BSP\ADC.c LARGE BROWSE DEBUG OBJECTEXTEND PRINT(.\ADC.lst) T
+                    -ABS(2) OBJECT(.\ADC.obj)
+
+line level    source
+
+   1          /************************************************************
+   2          * 组织名称： (C), 1988-1999, Tech. Co., Ltd.
+   3          * 文件名称: test.cpp
+   4          * 作者:
+   5          * 版本 :
+   6          * 日期:
+   7          * 描述: // 模块描述
+   8          * 主要函数及其功能 : // 主要函数及其功能
+   9            1. -------
+  10          * 历史修改记录: // 历史修改记录
+  11          * <作者> <时间> <版本 > <描述>
+  12          * David 96/10/12 1.0 build this moudle
+  13          ***********************************************************/
+  14          #include    "adc.h"
+  15          //========================================================================
+  16          // 函数: void   ADC_Inilize(ADC_InitTypeDef *ADCx)
+  17          // 描述: ADC初始化程序.
+  18          // 参数: ADCx: 结构参数,请参考adc.h里的定义.
+  19          // 返回: none.
+  20          // 版本: V1.0, 2012-10-22
+  21          //========================================================================
+  22          void    ADC_Inilize(ADC_InitTypeDef *ADCx)
+  23          {
+  24   1          P1ASF = ADCx->ADC_Px;
+  25   1          ADC_CONTR = (ADC_CONTR & ~ADC_90T) | ADCx->ADC_Speed;
+  26   1          if(ADCx->ADC_Power == ENABLE)
+  27   1          {
+  28   2              ADC_CONTR |= 0x80;
+  29   2          }
+  30   1          else
+  31   1          {
+  32   2              ADC_CONTR &= 0x7F;
+  33   2          }
+  34   1          if(ADCx->ADC_AdjResult == ADC_RES_H2L8)
+  35   1          {
+  36   2              PCON2 |=  (1<<5);    //10位AD结果的高2位放ADC_RES的低2位，低8位在ADC_RESL。
+  37   2          }
+  38   1          else
+  39   1          {
+  40   2              PCON2 &= ~(1<<5);    //10位AD结果的高8位放ADC_RES，低2位在ADC_RESL的低2位。
+  41   2          }
+  42   1          if(ADCx->ADC_Interrupt == ENABLE)
+  43   1          {
+  44   2              EADC = 1;    //中断允许     ENABLE,DISABLE
+  45   2          }
+  46   1          else
+  47   1          {
+  48   2              EADC = 0;
+  49   2          }
+  50   1          if(ADCx->ADC_Polity == PolityHigh)
+  51   1          {
+  52   2              PADC = 1;    //优先级设置   PolityHigh,PolityLow
+  53   2          }
+  54   1          else
+C51 COMPILER V8.05a   ADC                                                                  07/18/2017 09:56:43 PAGE 2   
+
+  55   1          {
+  56   2              PADC = 0;
+  57   2          }
+  58   1      }
+  59          //========================================================================
+  60          // 函数: void   ADC_PowerControl(u8 pwr)
+  61          // 描述: ADC电源控制程序.
+  62          // 参数: pwr: 电源控制,ENABLE或DISABLE.
+  63          // 返回: none.
+  64          // 版本: V1.0, 2012-10-22
+  65          //========================================================================
+  66          void    ADC_PowerControl(u8 pwr)
+  67          {
+  68   1          if(pwr == ENABLE)
+  69   1          {
+  70   2              ADC_CONTR |= 0x80;
+  71   2          }
+  72   1          else
+  73   1          {
+  74   2              ADC_CONTR &= 0x7f;
+  75   2          }
+  76   1      }
+  77          //========================================================================
+  78          // 函数: u16    Get_ADC10bitResult(u8 channel)
+  79          // 描述: 查询法读一次ADC结果.
+  80          // 参数: channel: 选择要转换的ADC.
+  81          // 返回: 10位ADC结果.
+  82          // 版本: V1.0, 2012-10-22
+  83          //========================================================================
+  84          u16 Get_ADC10bitResult(u8 channel)  //channel = 0~7
+  85          {
+  86   1          u16 adc;
+  87   1          u8  i;
+  88   1          if(channel > ADC_CH7)
+  89   1          {
+  90   2              return    1024;    //错误,返回1024,调用的程序判断
+  91   2          }
+  92   1          ADC_RES = 0;
+  93   1          ADC_RESL = 0;
+  94   1          ADC_CONTR = (ADC_CONTR & 0xe0) | ADC_START | channel;
+  95   1          NOP(4);         //对ADC_CONTR操作后要4T之后才能访问
+  96   1          for(i=0; i<250; i++)        //超时
+  97   1          {
+  98   2              if(ADC_CONTR & ADC_FLAG)
+  99   2              {
+ 100   3                  ADC_CONTR &= ~ADC_FLAG;
+ 101   3                  if(PCON2 &  (1<<5))     //10位AD结果的高2位放ADC_RES的低2位，低8位在ADC_RESL。
+ 102   3                  {
+ 103   4                      adc = (u16)(ADC_RES & 3);
+ 104   4                      adc = (adc << 8) | ADC_RESL;
+ 105   4                  }
+ 106   3                  else        //10位AD结果的高8位放ADC_RES，低2位在ADC_RESL的低2位。
+ 107   3                  {
+ 108   4                      adc = (u16)ADC_RES;
+ 109   4                      adc = (adc << 2) | (ADC_RESL & 3);
+ 110   4                  }
+ 111   3                  return  adc;
+ 112   3              }
+ 113   2          }
+ 114   1          return  1024;   //错误,返回1024,调用的程序判断
+ 115   1      }
+ 116          //========================================================================
+C51 COMPILER V8.05a   ADC                                                                  07/18/2017 09:56:43 PAGE 3   
+
+ 117          // 函数: void ADC_int(void) interrupt ADC_VECTOR
+ 118          // 描述: ADC中断函数.
+ 119          // 参数: none.
+ 120          // 返回: none.
+ 121          // 版本: V1.0, 2012-10-22
+ 122          //========================================================================
+ 123          void ADC_int (void) interrupt ADC_VECTOR
+ 124          {
+ 125   1          ADC_CONTR &= ~ADC_FLAG;
+ 126   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    193    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

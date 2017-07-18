@@ -1,0 +1,49 @@
+C51 COMPILER V8.05a   MODE                                                                 07/18/2017 09:56:41 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE MODE
+OBJECT MODULE PLACED IN .\mode.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\SOFTWARE\TASK\mode.c LARGE BROWSE DEBUG OBJECTEXTEND PRINT(.\mode.lst
+                    -) TABS(2) OBJECT(.\mode.obj)
+
+line level    source
+
+   1          #include "mode.h"
+   2          void mode1(void)
+   3          {
+   4   1        
+   5   1      }
+   6          
+   7          void mode2(void)
+   8          {
+   9   1        
+  10   1      }
+  11          
+  12          
+  13          void mode3(void)
+  14          {
+  15   1        
+  16   1      }
+  17          
+  18          void mode4(void)
+  19          {
+  20   1        
+  21   1      }
+  22          void modeLauncher(void)
+  23          {
+  24   1        
+  25   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =      5    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

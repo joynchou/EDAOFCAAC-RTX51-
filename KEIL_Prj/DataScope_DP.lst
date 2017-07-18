@@ -1,0 +1,190 @@
+C51 COMPILER V8.05a   DATASCOPE_DP                                                         07/18/2017 09:56:41 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE DATASCOPE_DP
+OBJECT MODULE PLACED IN .\DataScope_DP.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\SOFTWARE\COMMON_SOFTWARE\DATA_SCOPE\DataScope_DP.c LARGE BROWSE DEBUG
+                    - OBJECTEXTEND PRINT(.\DataScope_DP.lst) TABS(2) OBJECT(.\DataScope_DP.obj)
+
+line level    source
+
+   1          /************************************************************
+   2          * 组织名称： 电子大赛小组
+   3          * 文件名称: DataScope_DP.c
+   4          * 作者:  未知
+   5          * 版本 :1.1
+   6          * 日期:
+   7          * 主要功能 :
+   8          * 向上位机发送数据的文件
+   9          * 历史修改记录: // 历史修改记录
+  10          * <作者> <时间> <版本 > <描述>
+  11          ***********************************************************/
+  12          /***************串口示波器驱动代码************************/
+  13          #include "DataScope_DP.h"
+  14          #include "../../../HARDWARE/BSP/USART1.h"
+  15          #define DATA_SCOPE
+  16          #ifdef DATA_SCOPE
+  17          
+  18          unsigned char DataScope_OutPut_Buffer[42] = {0};       //串口发送缓冲区
+  19          //函数说明：将单精度浮点数据转成4字节数据并存入指定地址
+  20          //附加说明：用户无需直接操作此函数
+  21          //target:目标单精度数据
+  22          //buf:待写入数组
+  23          //beg:指定从数组第几个元素开始写入
+  24          //函数无返回
+  25          //对此函数进行了修改，原本是有问题的，后来发现point数组的顺序反了，现在能正常使用了
+  26           void Float2Byte(float *target,unsigned char *buf,unsigned char beg)
+  27          {
+  28   1        unsigned char *point;
+  29   1        point = (unsigned char*)target;   //得到float的地址
+  30   1        buf[beg]   = point[3];
+  31   1        buf[beg+1] = point[2];
+  32   1        buf[beg+2] = point[1];
+  33   1        buf[beg+3] = point[0];
+  34   1      }
+  35           /*************************************************
+  36           * 函数名称:
+  37           * 描述:
+  38           * 输入:
+  39           * 输出:
+  40           * 返回值:
+  41           * 其他说明:
+  42           *************************************************/
+  43           void sendScopeData(float Data, u8 channel)
+  44           {
+  45   1         u8 a; //
+  46   1      
+  47   1         DataScope_Get_Channel_Data(Data, channel);
+  48   1      
+  49   1         for (a = 0; a < DataScope_Data_Generate(channel); a++)
+  50   1         {
+  51   2           TX1_write2buff(DataScope_OutPut_Buffer[a]); //发送一通道数据到串口示波器
+  52   2         }
+  53   1      
+  54   1       }
+C51 COMPILER V8.05a   DATASCOPE_DP                                                         07/18/2017 09:56:41 PAGE 2   
+
+  55          
+  56          //函数说明：将待发送通道的单精度浮点数据写入发送缓冲区
+  57          //Data：通道数据
+  58          //Channel：选择通道（1-10）
+  59          //函数无返回
+  60          void DataScope_Get_Channel_Data(float Data,unsigned char Channel)
+  61          {
+  62   1        if ( (Channel > 10) || (Channel == 0) )
+  63   1          {
+  64   2            return;    //通道个数大于10或等于0，直接跳出，不执行函数
+  65   2          }
+  66   1        else
+  67   1          {
+  68   2            switch (Channel)
+  69   2              {
+  70   3                case 1:
+  71   3                  Float2Byte(&Data,DataScope_OutPut_Buffer,1);
+  72   3                  break;
+  73   3                case 2:
+  74   3                  Float2Byte(&Data,DataScope_OutPut_Buffer,5);
+  75   3                  break;
+  76   3                case 3:
+  77   3                  Float2Byte(&Data,DataScope_OutPut_Buffer,9);
+  78   3                  break;
+  79   3                case 4:
+  80   3                  Float2Byte(&Data,DataScope_OutPut_Buffer,13);
+  81   3                  break;
+  82   3                case 5:
+  83   3                  Float2Byte(&Data,DataScope_OutPut_Buffer,17);
+  84   3                  break;
+  85   3                case 6:
+  86   3                  Float2Byte(&Data,DataScope_OutPut_Buffer,21);
+  87   3                  break;
+  88   3                case 7:
+  89   3                  Float2Byte(&Data,DataScope_OutPut_Buffer,25);
+  90   3                  break;
+  91   3                case 8:
+  92   3                  Float2Byte(&Data,DataScope_OutPut_Buffer,29);
+  93   3                  break;
+  94   3                case 9:
+  95   3                  Float2Byte(&Data,DataScope_OutPut_Buffer,33);
+  96   3                  break;
+  97   3                case 10:
+  98   3                  Float2Byte(&Data,DataScope_OutPut_Buffer,37);
+  99   3                  break;
+ 100   3              }
+ 101   2          }
+ 102   1      }
+ 103          //函数说明：生成 DataScopeV1.0 能正确识别的帧格式
+ 104          //Channel_Number，需要发送的通道个数
+ 105          //返回发送缓冲区数据个数
+ 106          //返回0表示帧格式生成失败
+ 107          unsigned char DataScope_Data_Generate(unsigned char Channel_Number)
+ 108          {
+ 109   1        if ( (Channel_Number > 10) || (Channel_Number == 0) )
+ 110   1          {
+ 111   2            return 0;    //通道个数大于10或等于0，直接跳出，不执行函数
+ 112   2          }
+ 113   1        else
+ 114   1          {
+ 115   2            DataScope_OutPut_Buffer[0] = '$';  //帧头
+ 116   2            switch(Channel_Number)
+C51 COMPILER V8.05a   DATASCOPE_DP                                                         07/18/2017 09:56:41 PAGE 3   
+
+ 117   2              {
+ 118   3                case 1:
+ 119   3                  DataScope_OutPut_Buffer[5]  =  5;
+ 120   3                  return  6;
+ 121   3                  break;
+ 122   3                case 2:
+ 123   3                  DataScope_OutPut_Buffer[9]  =  9;
+ 124   3                  return 10;
+ 125   3                  break;
+ 126   3                case 3:
+ 127   3                  DataScope_OutPut_Buffer[13] = 13;
+ 128   3                  return 14;
+ 129   3                  break;
+ 130   3                case 4:
+ 131   3                  DataScope_OutPut_Buffer[17] = 17;
+ 132   3                  return 18;
+ 133   3                  break;
+ 134   3                case 5:
+ 135   3                  DataScope_OutPut_Buffer[21] = 21;
+ 136   3                  return 22;
+ 137   3                  break;
+ 138   3                case 6:
+ 139   3                  DataScope_OutPut_Buffer[25] = 25;
+ 140   3                  return 26;
+ 141   3                  break;
+ 142   3                case 7:
+ 143   3                  DataScope_OutPut_Buffer[29] = 29;
+ 144   3                  return 30;
+ 145   3                  break;
+ 146   3                case 8:
+ 147   3                  DataScope_OutPut_Buffer[33] = 33;
+ 148   3                  return 34;
+ 149   3                  break;
+ 150   3                case 9:
+ 151   3                  DataScope_OutPut_Buffer[37] = 37;
+ 152   3                  return 38;
+ 153   3                  break;
+ 154   3                case 10:
+ 155   3                  DataScope_OutPut_Buffer[41] = 41;
+ 156   3                  return 42;
+ 157   3                  break;
+ 158   3              }
+ 159   2          }
+ 160   1        return 0;
+ 161   1      }
+ 162          #endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    700    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     42      21
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

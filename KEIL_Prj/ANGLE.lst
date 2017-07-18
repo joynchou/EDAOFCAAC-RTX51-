@@ -1,0 +1,102 @@
+C51 COMPILER V8.05a   ANGLE                                                                07/18/2017 09:56:42 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE ANGLE
+OBJECT MODULE PLACED IN .\ANGLE.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\DEVICES\SENSOR\ANGLE\ANGLE.C LARGE BROWSE DEBUG OBJECTEXTEND
+                    - PRINT(.\ANGLE.lst) TABS(2) OBJECT(.\ANGLE.obj)
+
+line level    source
+
+   1          #include "ANGLE.h"
+   2          #include "../../../../SOFTWARE/ALGORITHM/FILTER/FILTER.H"
+   3          #define  POTENTIOMETER
+   4          #ifdef POTENTIOMETER
+   5          //ADC初始化函数 p1^0
+   6          /*************************************************
+   7          * 函数名称:void    ADC_config(u8 pin,u8 speed)
+   8          * 描述: 初始化adc
+   9          * 输入：u8 pin:需要使用的adc引脚
+  10          *       u8 speed: adc的转换速度
+  11          * 其他说明:
+  12          * pin:
+  13          *                ADC_P10
+  14          *                ADC_P11
+  15          *                ADC_P12
+  16          *                ADC_P13
+  17          *                ADC_P14
+  18          *                ADC_P15
+  19          *                ADC_P16
+  20          *                ADC_P17
+  21          * speed:
+  22          *                ADC_90T
+  23          *                ADC_180T
+  24          *                ADC_360T
+  25          *                ADC_540T
+  26          *************************************************/
+  27          void    ADC_config(u8 pin, u8 speed)
+  28          {
+  29   1          ADC_InitTypeDef     ADC_InitStructure;
+  30   1          ADC_InitStructure.ADC_Px = pin;
+  31   1          ADC_InitStructure.ADC_Speed = speed;
+  32   1          ADC_InitStructure.ADC_Power = ENABLE;
+  33   1          ADC_InitStructure.ADC_AdjResult = ADC_RES_H8L2;
+  34   1          ADC_InitStructure.ADC_Polity = PolityLow;
+  35   1          ADC_InitStructure.ADC_Interrupt = DISABLE;
+  36   1          ADC_Inilize(&ADC_InitStructure);
+  37   1          //ADC_PowerControl(ENABLE);
+  38   1      }
+  39          
+  40          
+  41          /*************************************************
+  42          * 函数名称: float getAngle(bit whichAngle)
+  43          * 描述:  读取当前风摆角度或者上一次读取的角度
+  44          * 输入:  bit whichAngle
+  45          * 返回值: float 角度
+  46          * 其他说明:
+  47            接线方法已经固定，不能再改变
+  48          whichAngle:
+  49                      PRESENT_ANGLE
+  50                      LAST_ANGLE
+  51          *************************************************/
+  52          
+  53          float getAngle(bit whichAngle)
+  54          {
+C51 COMPILER V8.05a   ANGLE                                                                07/18/2017 09:56:42 PAGE 2   
+
+  55   1          u16 angleData[10];
+  56   1        u8  angleDataloopTemp1=0;
+  57   1          static float presentAngle, lastAngle;  //此函数还可以返回上一次的角度值，不需要读取时间 ，是静态的数据
+             -，因为需要保存
+  58   1          if (whichAngle)  //返回当前结果
+  59   1          {
+  60   2          
+  61   2          for(angleDataloopTemp1 = 0; angleDataloopTemp1 < 10; angleDataloopTemp1++) //读取10次数据并保存在数组中
+  62   2            {
+  63   3              angleData[angleDataloopTemp1] =  Get_ADC10bitResult(ADC_CH0);
+  64   3            }
+  65   2             presentAngle= filter(angleData,10,1024,0);
+  66   2              
+  67   2              lastAngle = presentAngle;
+  68   2              return presentAngle;
+  69   2          }
+  70   1          else  //返回上一次结果
+  71   1          {
+  72   2              return  lastAngle;
+  73   2          }
+  74   1      }
+  75          #endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    150    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      8      27
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
