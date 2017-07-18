@@ -1,0 +1,13 @@
+CX51 COMPILER V8.05a   PIC                                                                 07/05/2017 23:15:16 PAGE 1   
+
+
+CX51 COMPILER V8.05a, COMPILATION OF MODULE PIC
+OBJECT MODULE PLACED IN K:\单片机相关\电子大赛程序框架\SOFTWARE\ALGORITHM\PID\PIC.OBJ
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\cx51.exe K:\单片机相关\电子大赛程序框架\SOFTWARE\ALGORITHM\PID\PIC.C CODE
+
+line level    source
+
+*** ERROR C318 OF K:\单片机相关\电子大赛程序框架\SOFTWARE\ALGORITHM\PID\PIC.C: can't open file 'K:\单片机相关\电子大赛程
+             -序框架\SOFTWARE\ALGORITHM\PID\PIC.C'
+
+CX51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)
