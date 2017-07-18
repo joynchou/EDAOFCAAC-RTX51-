@@ -5,7 +5,7 @@
 * 版本 :    1.0
 * 日期:
 * 描述: 	 电机相关头文件
-* 历史修改记录: // 历史修改记录
+* 历史修改记录: 1.0:添加了void DC_MOTOR_config(void)电机初始化函数
 * <作者> <时间> <版本 > <描述>
 ***********************************************************/
 #ifndef _MOTOR_H_
@@ -43,7 +43,7 @@ bit getDC_MotorState(u8 motor);
 * 其他说明: 
 *************************************************/
 void setDC_MotorSpeed(u8 motor,float speed);
-
+extern void DC_MOTOR_config(void);//电机/IO口初始化
 
 
 
