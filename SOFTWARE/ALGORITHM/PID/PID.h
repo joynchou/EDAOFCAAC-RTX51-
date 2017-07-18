@@ -65,4 +65,5 @@ float PID_getKi(u8 PID_N);
 float PID_getKd(u8 PID_N);
 float PID_getOutput(u8 PID_N);
 float PID_getIntegral(u8 PID_N);
+bit PID_getState(u8 PID_N);
 #endif

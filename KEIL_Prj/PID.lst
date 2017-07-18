@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   PID                                                                  07/18/2017 10:24:40 PAGE 1   
+C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:04:18 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE PID
@@ -29,7 +29,7 @@ line level    source
   19          
   20          typedef  struct
   21          {
-  22            float setParameter;//设定角度值
+  22            float PID_setTargetParameter;//设定角度值
   23            float actualParameter;//实际角度值
   24            float err;//偏差值
   25            float err_last;//上一次偏差值
@@ -62,7 +62,7 @@ line level    source
   52   1        g_pid_n_info[PID_N].err_last = 0;
   53   1        g_pid_n_info[PID_N].output = 0;
   54   1        g_pid_n_info[PID_N].integral = 0;
-C51 COMPILER V8.05a   PID                                                                  07/18/2017 10:24:40 PAGE 2   
+C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:04:18 PAGE 2   
 
   55   1        g_pid_n_info[PID_N].Kp = kp;
   56   1        g_pid_n_info[PID_N].Ki = ki;
@@ -111,255 +111,258 @@ line level    source
   98          {
   99   1      
  100   1      
- 101   1        if (g_pid_n_info[PID_N].state)
- 102   1        {
- 103   2      
- 104   2          g_pid_n_info[PID_N].err = g_pid_n_info[PID_N].setParameter - g_pid_n_info[PID_N].actualParameter;
- 105   2          //#ifdef  INTEGRAL_SEPARATE //是否使用积分分离法
- 106   2          //  if(abs(pid.err)<15.0f)//积分分离法，防止误差过大时积分累积过大造成震荡，同时减小比例和微分
- 107   2          //    {
- 108   2          //      pid.Ki        =        Ki_temp;
- 109   2          //      pid.integral  +=       pid.err;
- 110   2          //      pid.Kp        =        Kp_temp-0.7f;
- 111   2          //      pid.Kd        =        Kd_temp-0.5f;
- 112   2          //    }
- 113   2          //  else//误差过大时去除积分项和累计误差 ，仅使用比例和微分 ，同时在原基础上加大微分的作用
- 114   2          //    {
- 115   2          //      pid.Ki        =        0;
-C51 COMPILER V8.05a   PID                                                                  07/18/2017 10:24:40 PAGE 3   
+ 101   1      
+ 102   1          g_pid_n_info[PID_N].err = g_pid_n_info[PID_N].PID_setTargetParameter - g_pid_n_info[PID_N].actualParamet
+             -er;
+ 103   1          #ifdef  INTEGRAL_SEPARATE //是否使用积分分离法
+ 104   1            if(abs(g_pid_n_info[PID_N].err)<15.0f)//积分分离法，防止误差过大时积分累积过大造成震荡，同时减小比例和
+             -微分
+ 105   1              {
+ 106   2               g_pid_n_info[PID_N].Ki        =        g_pid_n_info[PID_N].Ki_temp;
+ 107   2                g_pid_n_info[PID_N].integral  +=       g_pid_n_info[PID_N].err;
+ 108   2                g_pid_n_info[PID_N].Kp        =        g_pid_n_info[PID_N].Kp_temp-0.7f;
+ 109   2               g_pid_n_info[PID_N].Kd        =        g_pid_n_info[PID_N].Kd_temp-0.5f;
+ 110   2              }
+ 111   1            else//误差过大时去除积分项和累计误差 ，仅使用比例和微分 ，同时在原基础上加大微分的作用
+ 112   1              {
+ 113   2                g_pid_n_info[PID_N].Ki        =        0;
+C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:04:18 PAGE 3   
 
- 116   2          //      pid.integral  =        0;
- 117   2          //      pid.Kd        =        Kd_temp+0.5f;
- 118   2          //    }
- 119   2          //#else
- 120   2          g_pid_n_info[PID_N].integral += g_pid_n_info[PID_N].err;
- 121   2          //#endif
- 122   2          //PID算法核心
- 123   2          g_pid_n_info[PID_N].output  = g_pid_n_info[PID_N].Kp*g_pid_n_info[PID_N].err      \
- 124   2                        + g_pid_n_info[PID_N].Ki*g_pid_n_info[PID_N].integral     \
- 125   2                        + g_pid_n_info[PID_N].Kd*(g_pid_n_info[PID_N].err - g_pid_n_info[PID_N].err_last);
- 126   2          g_pid_n_info[PID_N].err_last = g_pid_n_info[PID_N].err;
- 127   2      
- 128   2      
- 129   2          return 1;
- 130   2        }
- 131   1      
- 132   1      }
- 133          //************************************
- 134          // Method:    setParameterInferiorLimit
- 135          // FullName:  setParameterInferiorLimit
- 136          // Access:    public 
- 137          // Returns:   void
- 138          // Qualifier: 设置输入数值下限
- 139          // Parameter: u8 PID_N
- 140          // Parameter: float value
- 141          //************************************
- 142          void setParameterInferiorLimit(u8 PID_N, float value)
- 143          {
- 144   1        g_pid_n_info[PID_N].parameterInferiorLimit = value;
- 145   1      }
- 146          
- 147          //************************************
- 148          // Method:    setParameterUpperLimit
- 149          // FullName:  setParameterUpperLimit
- 150          // Access:    public 
- 151          // Returns:   void
- 152          // Qualifier: 设置输入数值上限
- 153          // Parameter: u8 PID_N
- 154          // Parameter: float value
- 155          //************************************
- 156          void setParameterUpperLimit(u8 PID_N, float value)
- 157          {
- 158   1        g_pid_n_info[PID_N].parameterUpperLimit = value;
- 159   1      
- 160   1      }
- 161          
- 162          //************************************
- 163          // Method:    setActualParameter
- 164          // FullName:  setActualParameter
- 165          // Access:    public 
- 166          // Returns:   void
- 167          // Qualifier: 设置实际输入数值
- 168          // Parameter: u8 PID_N
- 169          // Parameter: float value
- 170          //************************************
- 171          void setActualParameter(u8 PID_N, float value)
- 172          {
- 173   1        g_pid_n_info[PID_N].actualParameter = value;
- 174   1      
- 175   1      }
- 176          
- 177          //************************************
-C51 COMPILER V8.05a   PID                                                                  07/18/2017 10:24:40 PAGE 4   
+ 114   2                g_pid_n_info[PID_N].integral  =        0;
+ 115   2               g_pid_n_info[PID_N].Kd        =        g_pid_n_info[PID_N].Kd_temp+0.5f;
+ 116   2              }
+ 117   1          #else
+                  g_pid_n_info[PID_N].integral += g_pid_n_info[PID_N].err;
+                  #endif
+ 120   1          //PID算法核心
+ 121   1          g_pid_n_info[PID_N].output  = g_pid_n_info[PID_N].Kp*g_pid_n_info[PID_N].err      \
+ 122   1                        + g_pid_n_info[PID_N].Ki*g_pid_n_info[PID_N].integral     \
+ 123   1                        + g_pid_n_info[PID_N].Kd*(g_pid_n_info[PID_N].err - g_pid_n_info[PID_N].err_last);
+ 124   1          g_pid_n_info[PID_N].err_last = g_pid_n_info[PID_N].err;
+ 125   1      
+ 126   1      
+ 127   1          return 1;
+ 128   1        
+ 129   1      }
+ 130          //************************************
+ 131          // Method:    setParameterInferiorLimit
+ 132          // FullName:  setParameterInferiorLimit
+ 133          // Access:    public 
+ 134          // Returns:   void
+ 135          // Qualifier: 设置输入数值下限
+ 136          // Parameter: u8 PID_N
+ 137          // Parameter: float value
+ 138          //************************************
+ 139          void PID_setParameterInferiorLimit(u8 PID_N, float value)
+ 140          {
+ 141   1        g_pid_n_info[PID_N].parameterInferiorLimit = value;
+ 142   1      }
+ 143          
+ 144          //************************************
+ 145          // Method:    setParameterUpperLimit
+ 146          // FullName:  setParameterUpperLimit
+ 147          // Access:    public 
+ 148          // Returns:   void
+ 149          // Qualifier: 设置输入数值上限
+ 150          // Parameter: u8 PID_N
+ 151          // Parameter: float value
+ 152          //************************************
+ 153          void PID_setParameterUpperLimit(u8 PID_N, float value)
+ 154          {
+ 155   1        g_pid_n_info[PID_N].parameterUpperLimit = value;
+ 156   1      
+ 157   1      }
+ 158          
+ 159          //************************************
+ 160          // Method:    setActualParameter
+ 161          // FullName:  setActualParameter
+ 162          // Access:    public 
+ 163          // Returns:   void
+ 164          // Qualifier: 设置实际输入数值
+ 165          // Parameter: u8 PID_N
+ 166          // Parameter: float value
+ 167          //************************************
+ 168          void PID_setActualParameter(u8 PID_N, float value)
+ 169          {
+ 170   1        g_pid_n_info[PID_N].actualParameter = value;
+ 171   1      
+ 172   1      }
+ 173          
+ 174          //************************************
+ 175          // Method:    setKi
+C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:04:18 PAGE 4   
 
- 178          // Method:    setKi
- 179          // FullName:  setKi
- 180          // Access:    public 
- 181          // Returns:   void
- 182          // Qualifier: 设置PID的Ki值
- 183          // Parameter: u8 PID_N
- 184          // Parameter: float value
- 185          //************************************
- 186          void setKi(u8 PID_N, float value)
- 187          {
- 188   1        g_pid_n_info[PID_N].Ki = value;
- 189   1      }
- 190          
- 191          //************************************
- 192          // Method:    setKp
- 193          // FullName:  setKp
- 194          // Access:    public 
- 195          // Returns:   void
- 196          // Qualifier: 设置PID的Kp值
- 197          // Parameter: u8 PID_N
- 198          // Parameter: float value
- 199          //************************************
- 200          void setKp(u8 PID_N, float value)
- 201          {
- 202   1        g_pid_n_info[PID_N].Kp = value;
- 203   1      }
- 204          
- 205          //************************************
- 206          // Method:    setKd
- 207          // FullName:  setKd
- 208          // Access:    public 
- 209          // Returns:   void
- 210          // Qualifier: 设置PID的Kd值
- 211          // Parameter: u8 PID_N
- 212          // Parameter: float value
- 213          //************************************
- 214          void setKd(u8 PID_N, float value)
- 215          {
- 216   1        g_pid_n_info[PID_N].Kd = value;
- 217   1      }
- 218          
- 219          //************************************
- 220          // Method:    setParameter
- 221          // FullName:  setParameter
- 222          // Access:    public 
- 223          // Returns:   void
- 224          // Qualifier: 设置PID的目标数值
- 225          // Parameter: u8 PID_N
- 226          // Parameter: float value
- 227          //************************************
- 228          void setParameter(u8 PID_N, float value)
- 229          {
- 230   1        g_pid_n_info[PID_N].setParameter = value;
- 231   1      }
- 232          
- 233          
- 234          //************************************
- 235          // Method:    getParameter
- 236          // FullName:  getParameter
- 237          // Access:    public 
- 238          // Returns:   float
- 239          // Qualifier: 读取PID的目标数值
-C51 COMPILER V8.05a   PID                                                                  07/18/2017 10:24:40 PAGE 5   
+ 176          // FullName:  setKi
+ 177          // Access:    public 
+ 178          // Returns:   void
+ 179          // Qualifier: 设置PID的Ki值
+ 180          // Parameter: u8 PID_N
+ 181          // Parameter: float value
+ 182          //************************************
+ 183          void PID_setKi(u8 PID_N, float value)
+ 184          {
+ 185   1        g_pid_n_info[PID_N].Ki = value;
+ 186   1      }
+ 187          
+ 188          //************************************
+ 189          // Method:    setKp
+ 190          // FullName:  setKp
+ 191          // Access:    public 
+ 192          // Returns:   void
+ 193          // Qualifier: 设置PID的Kp值
+ 194          // Parameter: u8 PID_N
+ 195          // Parameter: float value
+ 196          //************************************
+ 197          void PID_setKp(u8 PID_N, float value)
+ 198          {
+ 199   1        g_pid_n_info[PID_N].Kp = value;
+ 200   1      }
+ 201          
+ 202          //************************************
+ 203          // Method:    setKd
+ 204          // FullName:  setKd
+ 205          // Access:    public 
+ 206          // Returns:   void
+ 207          // Qualifier: 设置PID的Kd值
+ 208          // Parameter: u8 PID_N
+ 209          // Parameter: float value
+ 210          //************************************
+ 211          void PID_setKd(u8 PID_N, float value)
+ 212          {
+ 213   1        g_pid_n_info[PID_N].Kd = value;
+ 214   1      }
+ 215          
+ 216          //************************************
+ 217          // Method:    setParameter
+ 218          // FullName:  setParameter
+ 219          // Access:    public 
+ 220          // Returns:   void
+ 221          // Qualifier: 设置PID的目标数值
+ 222          // Parameter: u8 PID_N
+ 223          // Parameter: float value
+ 224          //************************************
+ 225          void PID_setTargetParameter(u8 PID_N, float value)
+ 226          {
+ 227   1        g_pid_n_info[PID_N].PID_setTargetParameter = value;
+ 228   1      }
+ 229          
+ 230          
+ 231          //************************************
+ 232          // Method:    getParameter
+ 233          // FullName:  getParameter
+ 234          // Access:    public 
+ 235          // Returns:   float
+ 236          // Qualifier: 读取PID的目标数值
+ 237          // Parameter: u8 PID_N
+C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:04:18 PAGE 5   
 
- 240          // Parameter: u8 PID_N
- 241          //************************************
- 242          float getParameter(u8 PID_N)
- 243          {
- 244   1        return  g_pid_n_info[PID_N].setParameter;
- 245   1      }
- 246          
- 247          //************************************
- 248          // Method:    getErr
- 249          // FullName:  getErr
- 250          // Access:    public 
- 251          // Returns:   float
- 252          // Qualifier: 读取PID的这一次误差值
- 253          // Parameter: u8 PID_N
- 254          //************************************
- 255          float getErr(u8 PID_N)
- 256          {
- 257   1        return  g_pid_n_info[PID_N].err;
- 258   1      }
- 259          
- 260          //************************************
- 261          // Method:    getErrLast
- 262          // FullName:  getErrLast
- 263          // Access:    public 
- 264          // Returns:   float
- 265          // Qualifier: 读取PID的上一次误差值
- 266          // Parameter: u8 PID_N
- 267          //************************************
- 268          float getErrLast(u8 PID_N)
- 269          {
- 270   1        return  g_pid_n_info[PID_N].err_last;
- 271   1      }
- 272          //************************************
- 273          // Method:    getKp
- 274          // FullName:  getKp
- 275          // Access:    public 
- 276          // Returns:   float
- 277          // Qualifier: 读取PID的Kp值
- 278          // Parameter: u8 PID_N
- 279          //************************************
- 280          float getKp(u8 PID_N)
- 281          {
- 282   1        return  g_pid_n_info[PID_N].Kp;
- 283   1      }
- 284          
- 285          //************************************
- 286          // Method:    getKi
- 287          // FullName:  getKi
- 288          // Access:    public 
- 289          // Returns:   float
- 290          // Qualifier: 读取PID的Ki值
- 291          // Parameter: u8 PID_N
- 292          //************************************
- 293          float getKi(u8 PID_N)
- 294          {
- 295   1        return  g_pid_n_info[PID_N].Ki;
- 296   1      }
- 297          
- 298          //************************************
- 299          // Method:    getKd
- 300          // FullName:  getKd
- 301          // Access:    public 
-C51 COMPILER V8.05a   PID                                                                  07/18/2017 10:24:40 PAGE 6   
+ 238          //************************************
+ 239          float PID_getParameter(u8 PID_N)
+ 240          {
+ 241   1        return  g_pid_n_info[PID_N].PID_setTargetParameter;
+ 242   1      }
+ 243          
+ 244          //************************************
+ 245          // Method:    getErr
+ 246          // FullName:  getErr
+ 247          // Access:    public 
+ 248          // Returns:   float
+ 249          // Qualifier: 读取PID的这一次误差值
+ 250          // Parameter: u8 PID_N
+ 251          //************************************
+ 252          float PID_getErr(u8 PID_N)
+ 253          {
+ 254   1        return  g_pid_n_info[PID_N].err;
+ 255   1      }
+ 256          
+ 257          //************************************
+ 258          // Method:    getErrLast
+ 259          // FullName:  getErrLast
+ 260          // Access:    public 
+ 261          // Returns:   float
+ 262          // Qualifier: 读取PID的上一次误差值
+ 263          // Parameter: u8 PID_N
+ 264          //************************************
+ 265          float PID_getErrLast(u8 PID_N)
+ 266          {
+ 267   1        return  g_pid_n_info[PID_N].err_last;
+ 268   1      }
+ 269          //************************************
+ 270          // Method:    getKp
+ 271          // FullName:  getKp
+ 272          // Access:    public 
+ 273          // Returns:   float
+ 274          // Qualifier: 读取PID的Kp值
+ 275          // Parameter: u8 PID_N
+ 276          //************************************
+ 277          float PID_getKp(u8 PID_N)
+ 278          {
+ 279   1        return  g_pid_n_info[PID_N].Kp;
+ 280   1      }
+ 281          
+ 282          //************************************
+ 283          // Method:    getKi
+ 284          // FullName:  getKi
+ 285          // Access:    public 
+ 286          // Returns:   float
+ 287          // Qualifier: 读取PID的Ki值
+ 288          // Parameter: u8 PID_N
+ 289          //************************************
+ 290          float PID_getKi(u8 PID_N)
+ 291          {
+ 292   1        return  g_pid_n_info[PID_N].Ki;
+ 293   1      }
+ 294          
+ 295          //************************************
+ 296          // Method:    getKd
+ 297          // FullName:  getKd
+ 298          // Access:    public 
+ 299          // Returns:   float
+C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:04:18 PAGE 6   
 
- 302          // Returns:   float
- 303          // Qualifier: 读取pid的Kd参数值
- 304          // Parameter: u8 PID_N
- 305          //************************************
- 306          float getKd(u8 PID_N)
- 307          {
- 308   1        return  g_pid_n_info[PID_N].Kd;
- 309   1      }
- 310          
- 311          //************************************
- 312          // Method:    getOutput
- 313          // FullName:  getOutput
- 314          // Access:    public 
- 315          // Returns:   float
- 316          // Qualifier: 读取pid输出值
- 317          // Parameter: u8 PID_N
- 318          //************************************
- 319          float getOutput(u8 PID_N)
- 320          {
- 321   1        return  g_pid_n_info[PID_N].output;
- 322   1      }
- 323          
- 324          //************************************
- 325          // Method:    getIntegral
- 326          // FullName:  getIntegral
- 327          // Access:    public 
- 328          // Returns:   float
- 329          // Qualifier: 读取pid积分值
- 330          // Parameter: u8 PID_N
- 331          //************************************
- 332          float getIntegral(u8 PID_N)
- 333          {
- 334   1        return  g_pid_n_info[PID_N].integral;
- 335   1      }
- 336          #endif
- 337          
+ 300          // Qualifier: 读取pid的Kd参数值
+ 301          // Parameter: u8 PID_N
+ 302          //************************************
+ 303          float PID_getKd(u8 PID_N)
+ 304          {
+ 305   1        return  g_pid_n_info[PID_N].Kd;
+ 306   1      }
+ 307          
+ 308          //************************************
+ 309          // Method:    getOutput
+ 310          // FullName:  getOutput
+ 311          // Access:    public 
+ 312          // Returns:   float
+ 313          // Qualifier: 读取pid输出值
+ 314          // Parameter: u8 PID_N
+ 315          //************************************
+ 316          float PID_getOutput(u8 PID_N)
+ 317          {
+ 318   1        return  g_pid_n_info[PID_N].output;
+ 319   1      }
+ 320          
+ 321          //************************************
+ 322          // Method:    getIntegral
+ 323          // FullName:  getIntegral
+ 324          // Access:    public 
+ 325          // Returns:   float
+ 326          // Qualifier: 读取pid积分值
+ 327          // Parameter: u8 PID_N
+ 328          //************************************
+ 329          float PID_getIntegral(u8 PID_N)
+ 330          {
+ 331   1        return  g_pid_n_info[PID_N].integral;
+ 332   1      }
+ 333          bit PID_getState(u8 PID_N)
+ 334          {
+ 335   1        return g_pid_n_info[PID_N].state;
+ 336   1      }
+ 337          #endif
+ 338          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1253    ----
+   CODE SIZE        =   1546    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =    114      49
    PDATA SIZE       =   ----    ----

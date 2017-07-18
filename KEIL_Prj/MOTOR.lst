@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 10:24:40 PAGE 1   
+C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 17:09:28 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE MOTOR
@@ -59,19 +59,19 @@ line level    source
   49   2        }
   50   1      
   51   1        //  PWM_duty(PWM_2,speed*0.65f);//根据不同电机乘于不同的增益
-  52   1        set_PWM_duty(motor + 4, speed);//根据不同电机乘于不同的增益
+  52   1        set_PWM_duty(motor , speed);//根据不同电机乘于不同的增益
   53   1        g_DC_Motor[motor].speed = speed;
   54   1      }
-C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 10:24:40 PAGE 2   
+C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 17:09:28 PAGE 2   
 
   55          void open_DC_Motor(u8 motor)
   56          {
-  57   1        open_PWM_N(motor + 4);
+  57   1        open_PWM_N(motor );
   58   1        g_DC_Motor[motor].state = ON;
   59   1      }
   60          void close_DC_Motor(u8 motor)
   61          {
-  62   1        close_PWM_N(motor + 4);
+  62   1        close_PWM_N(motor );
   63   1        g_DC_Motor[motor].state = OFF;
   64   1      
   65   1      
@@ -125,10 +125,10 @@ line level    source
  113   1        PWM_InitStructure.PWM_T1x_EN = DISABLE;
  114   1        PWM_InitStructure.PWM_T2x_EN = DISABLE;
  115   1        PWM_InitStructure.PWM_EN = DISABLE;
- 116   1        PWM_Inilize(PWM_4, &PWM_InitStructure);
-C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 10:24:40 PAGE 3   
+ 116   1        PWM_Inilize(PWM_2, &PWM_InitStructure);
+C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 17:09:28 PAGE 3   
 
- 117   1        PWM_Inilize(PWM_5, &PWM_InitStructure);
+ 117   1        PWM_Inilize(PWM_3, &PWM_InitStructure);
  118   1      
  119   1        PWM_LOCK;
  120   1      
@@ -141,7 +141,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    328    ----
+   CODE SIZE        =    317    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =      4      25
    PDATA SIZE       =   ----    ----

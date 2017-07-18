@@ -25,7 +25,9 @@ void mode1(void)
                     }
                   else//如果步骤三没有完成
                     {
-                      stopMotor();
+                      close_DC_Motor(LEFT_MOTOR);
+									    close_DC_Motor(RIGHT_MOTOR);
+
                       step3=OK;
                       PrintString1("step3 is ok\n");
 
@@ -39,9 +41,10 @@ void mode1(void)
                   if(isExpiredTimer(Timer1))   //如果达到定时时间
                     {
 
-                      setMotorSpeed(LEFT_MOTOR,0.01f);
-                      setMotorSpeed(RIGHT_MOTOR,0.99f);
-                      stopMotor();
+                      setDC_MotorSpeed(LEFT_MOTOR,0.01f);
+                      setDC_MotorSpeed(RIGHT_MOTOR,0.99f);
+                      close_DC_Motor(RIGHT_MOTOR);
+											 close_DC_Motor(LEFT_MOTOR);
                       step2=OK;
                       PrintString1("step2 is ok\n");
                     }
@@ -60,10 +63,12 @@ void mode1(void)
             }
           else //如果步骤一没有完成
             {
-              PID_setTargetParameter(SET_ANGLE,100); //设定稳定角度
-              setTimeout(Timer1,5000); //设置定时器定时长度 ,3秒
-              startMotor();//电机开始工作
-              if(abs(getPID_data(ERR))<2.0f)//当误差小于2°时，认为达到稳定,定时器就开始计时
+              PID_setTargetParameter(PID_1,100); //设定稳定角度
+              setTimeout(Timer1,5000); //设置定时器定时长度 ,5秒
+              open_DC_Motor(LEFT_MOTOR);//电机开始工作
+							open_DC_Motor(RIGHT_MOTOR);//电机开始工作
+							openPID(PID_1);
+              if(abs(PID_getErr(PID_1))<2.0f)//当误差小于2°时，认为达到稳定,定时器就开始计时
                 {
                   //////////////////////定时器////////////////////////////////////////
                   if(isExpiredTimer(Timer1))   //如果达到定时时间

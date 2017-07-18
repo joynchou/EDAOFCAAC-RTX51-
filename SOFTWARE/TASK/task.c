@@ -1,18 +1,25 @@
-/************************************************************
-* 组织名称：
-* 文件名称: K:\单片机相关\电子大赛程序框架\SOFTWARE\TASK\TASK.C
-* 作者:     
-* 版本:    
-* 日期:     2017/07/06
-* 描述:
-* 历史修改记录:
-* <作者> <时间> <版本 > <描述>
-* 
-***********************************************************/
-
 #include "task.h"
-#include "../COMMON_SOFTWARE/DATA_SCOPE/DataScope_DP.h"
-#include "setup.h"
-#include "../HARDWARE/BSP/USART1.h"
-#include "../HARDWARE/DEVICES/SENSOR/ANGLE/ANGLE.h"
+#include "../../HARDWARE/DEVICES/MOTOR/DC_MOTOR/MOTOR.h"
+
+ bit setBoardWithAngle(float angle)
+{
+
+  if(angle>=179.9f)
+    {
+      angle=179.9f;
+#ifdef MOTOR_DEBUG
+      PrintString1("angle is over maximum adjusting\n");
+#endif
+    }
+  if(angle<=0.1f)
+    {
+      angle=0.1f;
+#ifdef MOTOR_DEBUG
+      PrintString1("angle is over miximum adjusting\n");
+#endif
+    }
+  setDC_MotorSpeed(LEFT_MOTOR,angle/180.0f);
+  setDC_MotorSpeed(RIGHT_MOTOR,1.0f-angle/180.0f);
+  return 1;
+}
 

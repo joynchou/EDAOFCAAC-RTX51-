@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   TASK                                                                 07/18/2017 10:24:39 PAGE 1   
+C51 COMPILER V8.05a   TASK                                                                 07/18/2017 17:18:34 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE TASK
@@ -8,30 +8,37 @@ COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\SOFTWARE\TASK\task.c LARGE BR
 
 line level    source
 
-   1          /************************************************************
-   2          * 组织名称：
-   3          * 文件名称: K:\单片机相关\电子大赛程序框架\SOFTWARE\TASK\TASK.C
-   4          * 作者:     
-   5          * 版本:    
-   6          * 日期:     2017/07/06
-   7          * 描述:
-   8          * 历史修改记录:
-   9          * <作者> <时间> <版本 > <描述>
-  10          * 
-  11          ***********************************************************/
-  12          
-  13          #include "task.h"
-  14          #include "../COMMON_SOFTWARE/DATA_SCOPE/DataScope_DP.h"
-  15          #include "setup.h"
-  16          #include "../HARDWARE/BSP/USART1.h"
-  17          #include "../HARDWARE/DEVICES/SENSOR/ANGLE/ANGLE.h"
-  18          
+   1          #include "task.h"
+   2          #include "../../HARDWARE/DEVICES/MOTOR/DC_MOTOR/MOTOR.h"
+   3          
+   4           bit setBoardWithAngle(float angle)
+   5          {
+   6   1      
+   7   1        if(angle>=179.9f)
+   8   1          {
+   9   2            angle=179.9f;
+  10   2      #ifdef MOTOR_DEBUG
+                    PrintString1("angle is over maximum adjusting\n");
+              #endif
+  13   2          }
+  14   1        if(angle<=0.1f)
+  15   1          {
+  16   2            angle=0.1f;
+  17   2      #ifdef MOTOR_DEBUG
+                    PrintString1("angle is over miximum adjusting\n");
+              #endif
+  20   2          }
+  21   1        setDC_MotorSpeed(LEFT_MOTOR,angle/180.0f);
+  22   1        setDC_MotorSpeed(RIGHT_MOTOR,1.0f-angle/180.0f);
+  23   1        return 1;
+  24   1      }
+  25          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   ----    ----
+   CODE SIZE        =    172    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =   ----    ----
+   XDATA SIZE       =   ----       4
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
