@@ -17,15 +17,39 @@
 #define ANGLE 2//角度控制
 #define MODE_1 3//题目一
 #define MODE_2 4//题目二
+#define MODE_3 5//
+#define MODE_4 6//
 
 void Task_Init() _task_ INIT
 {
-	
+	setup();
+	os_create_task(BUTTON);
+	os_delete_task(INIT);
 }
 
 void Task_Button() _task_ BUTTON
 {
-	
+	buttonScan();
+	if(getButtonState(BUTTON1))
+	{
+		os_create_task(MODE_1);
+		os_delete_task(BUTTON);
+	}
+	else if(getButtonState(BUTTON2))
+	{
+		os_create_task(MODE_2);
+		os_delete_task(BUTTON);
+	}
+	else if(getButtonState(BUTTON3))
+	{
+		os_create_task(MODE_3);
+		os_delete_task(BUTTON);		
+	}
+	else if(getButtonState(BUTTON4))
+	{
+		os_create_task(MODE_4);
+		os_delete_task(BUTTON);
+	}	
 }
 
 void Task_Angle() _task_ ANGLE //获取角度并将角度带入pid算法中计算
