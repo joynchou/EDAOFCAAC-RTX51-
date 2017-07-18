@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   ADC                                                                  07/18/2017 10:21:24 PAGE 1   
+C51 COMPILER V8.05a   ADC                                                                  07/18/2017 17:37:31 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE ADC
@@ -62,7 +62,7 @@ line level    source
   52   2              PADC = 1;    //优先级设置   PolityHigh,PolityLow
   53   2          }
   54   1          else
-C51 COMPILER V8.05a   ADC                                                                  07/18/2017 10:21:24 PAGE 2   
+C51 COMPILER V8.05a   ADC                                                                  07/18/2017 17:37:31 PAGE 2   
 
   55   1          {
   56   2              PADC = 0;
@@ -126,7 +126,7 @@ line level    source
  114   1          return  1024;   //错误,返回1024,调用的程序判断
  115   1      }
  116          //========================================================================
-C51 COMPILER V8.05a   ADC                                                                  07/18/2017 10:21:24 PAGE 3   
+C51 COMPILER V8.05a   ADC                                                                  07/18/2017 17:37:31 PAGE 3   
 
  117          // 函数: void ADC_int(void) interrupt ADC_VECTOR
  118          // 描述: ADC中断函数.

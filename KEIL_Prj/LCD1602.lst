@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   LCD1602                                                              07/18/2017 10:24:41 PAGE 1   
+C51 COMPILER V8.05a   LCD1602                                                              07/18/2017 17:37:31 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE LCD1602
@@ -62,7 +62,7 @@ line level    source
   52   1      }
   53          
   54          
-C51 COMPILER V8.05a   LCD1602                                                              07/18/2017 10:24:41 PAGE 2   
+C51 COMPILER V8.05a   LCD1602                                                              07/18/2017 17:37:31 PAGE 2   
 
   55          
   56          //****************************************************

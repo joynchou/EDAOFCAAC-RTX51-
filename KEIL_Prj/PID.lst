@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:04:18 PAGE 1   
+C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:37:29 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE PID
@@ -62,7 +62,7 @@ line level    source
   52   1        g_pid_n_info[PID_N].err_last = 0;
   53   1        g_pid_n_info[PID_N].output = 0;
   54   1        g_pid_n_info[PID_N].integral = 0;
-C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:04:18 PAGE 2   
+C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:37:29 PAGE 2   
 
   55   1        g_pid_n_info[PID_N].Kp = kp;
   56   1        g_pid_n_info[PID_N].Ki = ki;
@@ -126,7 +126,7 @@ line level    source
  111   1            else//误差过大时去除积分项和累计误差 ，仅使用比例和微分 ，同时在原基础上加大微分的作用
  112   1              {
  113   2                g_pid_n_info[PID_N].Ki        =        0;
-C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:04:18 PAGE 3   
+C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:37:29 PAGE 3   
 
  114   2                g_pid_n_info[PID_N].integral  =        0;
  115   2               g_pid_n_info[PID_N].Kd        =        g_pid_n_info[PID_N].Kd_temp+0.5f;
@@ -190,7 +190,7 @@ line level    source
  173          
  174          //************************************
  175          // Method:    setKi
-C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:04:18 PAGE 4   
+C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:37:29 PAGE 4   
 
  176          // FullName:  setKi
  177          // Access:    public 
@@ -254,7 +254,7 @@ line level    source
  235          // Returns:   float
  236          // Qualifier: 读取PID的目标数值
  237          // Parameter: u8 PID_N
-C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:04:18 PAGE 5   
+C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:37:29 PAGE 5   
 
  238          //************************************
  239          float PID_getParameter(u8 PID_N)
@@ -318,7 +318,7 @@ line level    source
  297          // FullName:  getKd
  298          // Access:    public 
  299          // Returns:   float
-C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:04:18 PAGE 6   
+C51 COMPILER V8.05a   PID                                                                  07/18/2017 17:37:29 PAGE 6   
 
  300          // Qualifier: 读取pid的Kd参数值
  301          // Parameter: u8 PID_N

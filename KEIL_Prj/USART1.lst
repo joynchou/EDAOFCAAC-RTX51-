@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   USART1                                                               07/18/2017 10:21:25 PAGE 1   
+C51 COMPILER V8.05a   USART1                                                               07/18/2017 17:37:32 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE USART1
@@ -62,7 +62,7 @@ line level    source
   52   3            {
   53   4              TR1 = 0;
   54   4              AUXR &= ~0x01;    //S1 BRT Use Timer1;
-C51 COMPILER V8.05a   USART1                                                               07/18/2017 10:21:25 PAGE 2   
+C51 COMPILER V8.05a   USART1                                                               07/18/2017 17:37:32 PAGE 2   
 
   55   4              TMOD &= ~(1<<6);  //Timer1 set As Timer
   56   4              TMOD &= ~0x30;    //Timer1_16bitAutoReload;
@@ -126,7 +126,7 @@ line level    source
  114   3            else                  IP2 &= ~1;  //低优先级中断
  115   3            if(COMx->UART_Mode == UART_9bit_BRTx) S2CON |=  (1<<7); //9bit
  116   3            else                  S2CON &= ~(1<<7); //8bit
-C51 COMPILER V8.05a   USART1                                                               07/18/2017 10:21:25 PAGE 3   
+C51 COMPILER V8.05a   USART1                                                               07/18/2017 17:37:32 PAGE 3   
 
  117   3            j = (MAIN_Fosc / 4) / COMx->UART_BaudRate;  //按1T计算
  118   3            if(j >= 65536UL)  return 2; //错误
@@ -190,7 +190,7 @@ line level    source
  176   4              T4T3M |=  (1<<3); //开始运行
  177   4            }
  178   3            else  return 2;
-C51 COMPILER V8.05a   USART1                                                               07/18/2017 10:21:25 PAGE 4   
+C51 COMPILER V8.05a   USART1                                                               07/18/2017 17:37:32 PAGE 4   
 
  179   3          }
  180   2          else  return 2; //模式错误
@@ -254,7 +254,7 @@ line level    source
  238   2          if(COMx->UART_RxEnable == ENABLE) S4CON |=  (1<<4); //允许接收
  239   2          else                S4CON &= ~(1<<4); //禁止接收
  240   2          P_SW2 = (P_SW2 & ~4) | (COMx->UART_P_SW & 0x04);  //切换IO
-C51 COMPILER V8.05a   USART1                                                               07/18/2017 10:21:25 PAGE 5   
+C51 COMPILER V8.05a   USART1                                                               07/18/2017 17:37:32 PAGE 5   
 
  241   2          return  0;
  242   2        }
@@ -318,7 +318,7 @@ line level    source
  300   1        EA=0;
  301   1          for (; *puts != 0;  puts++)  TX1_write2buff(*puts);   //遇到停止符0结束
  302   1        EA=1;
-C51 COMPILER V8.05a   USART1                                                               07/18/2017 10:21:25 PAGE 6   
+C51 COMPILER V8.05a   USART1                                                               07/18/2017 17:37:32 PAGE 6   
 
  303   1      }
  304          
@@ -382,7 +382,7 @@ line level    source
  362   2        }
  363   1      
  364   1        if(TI2)
-C51 COMPILER V8.05a   USART1                                                               07/18/2017 10:21:25 PAGE 7   
+C51 COMPILER V8.05a   USART1                                                               07/18/2017 17:37:32 PAGE 7   
 
  365   1        {
  366   2          CLR_TI2();
@@ -446,7 +446,7 @@ line level    source
  424   2          {
  425   3            S4BUF = TX3_Buffer[COM4.TX_read];
  426   3            if(++COM4.TX_read >= COM_TX4_Lenth)   COM4.TX_read = 0;
-C51 COMPILER V8.05a   USART1                                                               07/18/2017 10:21:25 PAGE 8   
+C51 COMPILER V8.05a   USART1                                                               07/18/2017 17:37:32 PAGE 8   
 
  427   3          }
  428   2          else  COM4.B_TX_busy = 0;

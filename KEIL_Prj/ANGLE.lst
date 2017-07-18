@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   ANGLE                                                                07/18/2017 10:24:41 PAGE 1   
+C51 COMPILER V8.05a   ANGLE                                                                07/18/2017 19:35:08 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE ANGLE
@@ -62,7 +62,7 @@ line level    source
   52          
   53          float getAngle(bit whichAngle)
   54          {
-C51 COMPILER V8.05a   ANGLE                                                                07/18/2017 10:24:41 PAGE 2   
+C51 COMPILER V8.05a   ANGLE                                                                07/18/2017 19:35:08 PAGE 2   
 
   55   1          u16 angleData[10];
   56   1        u8  angleDataloopTemp1=0;
@@ -76,7 +76,7 @@ line level    source
   63   3              angleData[angleDataloopTemp1] =  Get_ADC10bitResult(ADC_CH0);
   64   3            }
   65   2             presentAngle= filter(angleData,10,1024,0);
-  66   2              
+  66   2             presentAngle=(0.3261f*presentAngle -19.36f);
   67   2              lastAngle = presentAngle;
   68   2              return presentAngle;
   69   2          }
@@ -89,7 +89,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    150    ----
+   CODE SIZE        =    195    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =      8      27
    PDATA SIZE       =   ----    ----

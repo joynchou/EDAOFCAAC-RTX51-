@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   PCA                                                                  07/18/2017 10:21:25 PAGE 1   
+C51 COMPILER V8.05a   PCA                                                                  07/18/2017 17:37:31 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE PCA
@@ -62,7 +62,7 @@ line level    source
   52   1          {
   53   2              if(high > PWM1_HIGH_MAX)
   54   2              {
-C51 COMPILER V8.05a   PCA                                                                  07/18/2017 10:21:25 PAGE 2   
+C51 COMPILER V8.05a   PCA                                                                  07/18/2017 17:37:31 PAGE 2   
 
   55   3                  high = PWM1_HIGH_MAX;    //?????????????,?????????
   56   3              }
@@ -126,7 +126,7 @@ line level    source
  114   2              CR = 0;
  115   2              CH = 0;
  116   2              CL = 0;
-C51 COMPILER V8.05a   PCA                                                                  07/18/2017 10:21:25 PAGE 3   
+C51 COMPILER V8.05a   PCA                                                                  07/18/2017 17:37:31 PAGE 3   
 
  117   2              AUXR1 = (AUXR1 & ~(3<<4)) | PCAx->PCA_IoUse;            //??IO?
  118   2              CMOD  = (CMOD  & ~(7<<1)) | PCAx->PCA_Clock;            //?????
@@ -190,7 +190,7 @@ line level    source
  176   3                  duty = 100;    //?????????????,?????????
  177   3              }
  178   2              if(duty < 1)
-C51 COMPILER V8.05a   PCA                                                                  07/18/2017 10:21:25 PAGE 4   
+C51 COMPILER V8.05a   PCA                                                                  07/18/2017 17:37:31 PAGE 4   
 
  179   2              {
  180   3                  duty = 1;    //?????????????,???????2?
@@ -254,7 +254,7 @@ line level    source
  238   2              CCAP0L = (u8)CCAP0_tmp;         //?????????????,??CCAP0L
  239   2              CCAP0H = (u8)(CCAP0_tmp >> 8);  //??CCAP0H
  240   2          }
-C51 COMPILER V8.05a   PCA                                                                  07/18/2017 10:21:25 PAGE 5   
+C51 COMPILER V8.05a   PCA                                                                  07/18/2017 17:37:31 PAGE 5   
 
  241   1          if(CCF1)    //PCA??1??
  242   1          {

@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   SETUP                                                                07/18/2017 17:09:27 PAGE 1   
+C51 COMPILER V8.05a   SETUP                                                                07/18/2017 19:52:09 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE SETUP
@@ -62,34 +62,33 @@ line level    source
   52   1        COMx_InitStructure.UART_P_SW = UART1_SW_P30_P31;
   53   1        COMx_InitStructure.UART_RXD_TXD_Short = DISABLE;
   54   1        USART_Configuration(USART1, &COMx_InitStructure);
-C51 COMPILER V8.05a   SETUP                                                                07/18/2017 17:09:27 PAGE 2   
+C51 COMPILER V8.05a   SETUP                                                                07/18/2017 19:52:09 PAGE 2   
 
-  55   1        // PrintString1("STC15w4k58s4's UART1 is open \r\n");   //串口测试
+  55   1        PrintString1("STC15w4k58s4's UART1 is open \r\n");   //串口测试
   56   1      }
   57          
   58          void setup(void)
   59          {
   60   1      
   61   1        UART1_init(115200L);
-  62   1        timerInit();
-  63   1        Board_LED_Init();
+  62   1        //timerInit();
+  63   1        //Board_LED_Init();
   64   1        Button_config();
   65   1        ADC_config(ADC_P10, ADC_540T);
   66   1        DC_MOTOR_config();
-  67   1        LCD1602_Init();
+  67   1        //LCD1602_Init();
   68   1        PID_config(PID_1,3.0f,0.02f,1.0f);
   69   1        PID_setParameterInferiorLimit(PID_1,0.0f);
   70   1        PID_setParameterUpperLimit(PID_1,200.0f);
-  71   1        EA = 1;
+  71   1      
   72   1      
-  73   1      
-  74   1      }
-  75          
+  73   1      }
+  74          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    145    ----
-   CONSTANT SIZE    =   ----    ----
+   CODE SIZE        =    142    ----
+   CONSTANT SIZE    =     32    ----
    XDATA SIZE       =   ----      13
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----

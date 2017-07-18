@@ -85,15 +85,15 @@ void    DC_MOTOR_config(void)
 	GPIO_InitStructure.Mode = GPIO_PullUp;
 
 
-	GPIO_InitStructure.Pin = GPIO_Pin_3;    //PWM2
+	GPIO_InitStructure.Pin = GPIO_Pin_7;    //PWM2
+	GPIO_Inilize(GPIO_P3, &GPIO_InitStructure);  //初始化
+
+
+
+	GPIO_InitStructure.Pin = GPIO_Pin_1;    //PWM4
 	GPIO_Inilize(GPIO_P2, &GPIO_InitStructure);  //初始化
-
-
-
-	GPIO_InitStructure.Pin = GPIO_Pin_2;    //PWM4
-	GPIO_Inilize(GPIO_P2, &GPIO_InitStructure);  //初始化
-	P22 = 1;
-	P23 = 1;
+	P37 = 1;
+	P21 = 1;
 
 
 	PWM_UNLOCK;
@@ -115,7 +115,8 @@ void    DC_MOTOR_config(void)
 	PWM_InitStructure.PWM_EN = DISABLE;
 	PWM_Inilize(PWM_2, &PWM_InitStructure);
 	PWM_Inilize(PWM_3, &PWM_InitStructure);
-
+  set_PWM_period (PWM_2,5000);
+	set_PWM_period (PWM_3,5000);
 	PWM_LOCK;
 
 

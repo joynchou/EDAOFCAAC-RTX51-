@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   STEP_MOTOR                                                           07/18/2017 10:24:41 PAGE 1   
+C51 COMPILER V8.05a   STEP_MOTOR                                                           07/18/2017 17:37:30 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE STEP_MOTOR
@@ -62,7 +62,7 @@ line level    source
   51          // Method:    setStepMotorWithRound
   52          // FullName:  setStepMotorWithRound
   53          // Access:    public 
-C51 COMPILER V8.05a   STEP_MOTOR                                                           07/18/2017 10:24:41 PAGE 2   
+C51 COMPILER V8.05a   STEP_MOTOR                                                           07/18/2017 17:37:30 PAGE 2   
 
   54          // Returns:   bit
   55          // Qualifier: 设置步进电机的旋转圈数
@@ -126,7 +126,7 @@ line level    source
  112   1        return 1;
  113   1      }
 *** WARNING C280 IN LINE 109 OF ..\HARDWARE\DEVICES\MOTOR\STEP_MOTOR\STEP_MOTOR.C: 'motor': unreferenced local variable
-C51 COMPILER V8.05a   STEP_MOTOR                                                           07/18/2017 10:24:41 PAGE 3   
+C51 COMPILER V8.05a   STEP_MOTOR                                                           07/18/2017 17:37:30 PAGE 3   
 
  114          bit lockStepMotor(u8 motor)
  115          {

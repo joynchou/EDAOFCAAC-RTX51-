@@ -85,7 +85,7 @@ bit getButtonState(u8 BUTTON_data)
 * 其他说明: 此按键检测程序没有使用到定时器，
 *           将在后续的工程中改进此函数
 *************************************************/
-void  buttonScan(void )//按键扫描函数
+void  buttonScan(void )//按键扫描函数 ,有bug
 {
     if(digitalRead(BUTTON1))
     {

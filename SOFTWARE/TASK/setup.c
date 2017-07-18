@@ -52,23 +52,22 @@ void    UART1_init(unsigned long BandRate)
 	COMx_InitStructure.UART_P_SW = UART1_SW_P30_P31;
 	COMx_InitStructure.UART_RXD_TXD_Short = DISABLE;
 	USART_Configuration(USART1, &COMx_InitStructure);
-	// PrintString1("STC15w4k58s4's UART1 is open \r\n");   //串口测试
+	PrintString1("STC15w4k58s4's UART1 is open \r\n");   //串口测试
 }
 
 void setup(void)
 {
 
 	UART1_init(115200L);
-	timerInit();
-	Board_LED_Init();
+	//timerInit();
+	//Board_LED_Init();
 	Button_config();
 	ADC_config(ADC_P10, ADC_540T);
 	DC_MOTOR_config();
-	LCD1602_Init();
+	//LCD1602_Init();
 	PID_config(PID_1,3.0f,0.02f,1.0f);
 	PID_setParameterInferiorLimit(PID_1,0.0f);
 	PID_setParameterUpperLimit(PID_1,200.0f);
-	EA = 1;
 
 
 }

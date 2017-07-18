@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   ABSTASK                                                              07/18/2017 17:23:02 PAGE 1   
+C51 COMPILER V8.05a   ABSTASK                                                              07/18/2017 19:36:21 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE ABSTASK
@@ -25,64 +25,98 @@ line level    source
   13          #include "../SOFTWARE/ALGORITHM/PID/PID.H"
   14          #include "../../HARDWARE/DEVICES/MOTOR/DC_MOTOR/MOTOR.h"
   15          
-  16          #define INIT 0//≥ı ºªØ
-  17          #define BUTTON 1//∞¥º¸ºÏ≤‚
-  18          #define ANGLE 2//Ω«∂»øÿ÷∆
-  19          #define MODE_1 3//Ã‚ƒø“ª
-  20          #define MODE_2 4//Ã‚ƒø∂˛
-  21          #define DEBUG 7
-  22          
-  23          void Task_Init() _task_ INIT
-  24          {
-  25   1        
-  26   1      }
+  16          #define INIT 0//ÂàùÂßãÂåñ
+  17          #define BUTTON 1//ÊåâÈîÆÊ£ÄÊµã
+  18          #define ANGLE 2//ËßíÂ∫¶ÊéßÂà∂
+  19          #define MODE_1 3//È¢òÁõÆ‰∏Ä
+  20          #define MODE_2 4//È¢òÁõÆ‰∫å
+  21          
+  22          #define MODE_3 5//
+  23          #define MODE_4 6//
+  24          
+  25          #define DEBUG 7
+  26          
   27          
-  28          void Task_Button() _task_ BUTTON
+  28          void Task_Init() _task_ INIT
   29          {
-  30   1        
-  31   1      }
-  32          
-  33          void Task_Angle() _task_ ANGLE //ªÒ»°Ω«∂»≤¢Ω´Ω«∂»¥¯»ÎpidÀ„∑®÷–º∆À„
-  34          {
-  35   1        openPID(PID_1);
-  36   1        for (;;)
-  37   1        {
-  38   2          
-  39   2          PID_setActualParameter(PID_1, getAngle(PRESENT_ANGLE));//…Ë÷√pidµƒ µº ≤Œ ˝,≤¢∂¡»°Ω«∂»
-  40   2          if(PID_getState(PID_1)&&(getDC_MotorState(LEFT_MOTOR)||getDC_MotorState(RIGHT_MOTOR)))
-  41   2          {
-  42   3          PID(PID_1);//PIDÀ„∑®
-  43   3          setBoardWithAngle(PID_getOutput(PID_1)+PID_getParameter(PID_1));
-  44   3      
-  45   3          }
-  46   2          os_wait(K_IVL,10,0);//Ω´Ω¯≥Ã÷‹∆⁄–‘∂¬»˚
-  47   2      
-  48   2        }
-  49   1      }
-  50          
-  51          void Task_Mode_1() _task_ MODE_1
-  52          {
-C51 COMPILER V8.05a   ABSTASK                                                              07/18/2017 17:23:02 PAGE 2   
+  30   1        setup();
+  31   1      //  os_create_task(BUTTON);
+  32   1        os_create_task(ANGLE);
+  33   1        os_create_task(DEBUG);
+  34   1      
+  35   1        os_delete_task(INIT);
+  36   1      
+  37   1      }
+  38          
+  39          void Task_Button() _task_ BUTTON
+  40          {
+  41   1        //buttonScan();
+  42   1      //  if(getButtonState(BUTTON1))
+  43   1      //  {
+  44   1      //    os_create_task(MODE_1);
+  45   1      //    os_delete_task(BUTTON);
+  46   1      //  }
+  47   1      //  else if(getButtonState(BUTTON2))
+  48   1      //  {
+  49   1      //    os_create_task(MODE_2);
+  50   1      //    os_delete_task(BUTTON);
+  51   1      //  }
+  52   1      //  else if(getButtonState(BUTTON3))
+C51 COMPILER V8.05a   ABSTASK                                                              07/18/2017 19:36:21 PAGE 2   
 
-  53   1        
-  54   1      }
-  55          
-  56          void Task_Mode_2() _task_ MODE_2
-  57          {
-  58   1        
-  59   1      }
-  60          void Debug()  _task_   DEBUG
-  61          {   for(;;)
-  62   1        {
-  63   2         sendScopeData (getAngle(PRESENT_ANGLE),1);
-  64   2            os_wait(K_IVL,25,0);//Ω´Ω¯≥Ã÷‹∆⁄–‘∂¬»˚
-  65   2        
-  66   2        }
-  67   1      }
+  53   1      //  {
+  54   1      //    os_create_task(MODE_3);
+  55   1      //    os_delete_task(BUTTON);   
+  56   1      //  }
+  57   1      //  else if(getButtonState(BUTTON4))
+  58   1      //  {
+  59   1      //    os_create_task(MODE_4);
+  60   1      //    os_delete_task(BUTTON);
+  61   1      //  } 
+  62   1      }
+  63          
+  64          void Task_Angle() _task_ ANGLE //Ëé∑ÂèñËßíÂ∫¶Âπ∂Â∞ÜËßíÂ∫¶Â∏¶ÂÖ•pidÁÆóÊ≥ï‰∏≠ËÆ°ÁÆó
+  65          {
+  66   1        openPID(PID_1);
+  67   1        open_DC_Motor(LEFT_MOTOR);
+  68   1        open_DC_Motor(RIGHT_MOTOR);
+  69   1        PID_setTargetParameter(PID_1,100);
+  70   1        for (;;)
+  71   1        {
+  72   2          
+  73   2          PID_setActualParameter(PID_1, getAngle(PRESENT_ANGLE));//ËÆæÁΩÆpidÁöÑÂÆûÈôÖÂèÇÊï∞,Âπ∂ËØªÂèñËßíÂ∫¶
+  74   2        //  if(PID_getState(PID_1)&&(getDC_MotorState(LEFT_MOTOR)||getDC_MotorState(RIGHT_MOTOR)))
+  75   2          {
+  76   3          PID(PID_1);//PIDÁÆóÊ≥ï
+  77   3          setBoardWithAngle(PID_getOutput(PID_1)+PID_getParameter(PID_1));
+  78   3      
+  79   3          }
+  80   2          os_wait(K_IVL,10,0);//Â∞ÜËøõÁ®ãÂë®ÊúüÊÄßÂ†µÂ°û
+  81   2      
+  82   2        }
+  83   1      }
+  84          
+  85          void Task_Mode_1() _task_ MODE_1
+  86          {
+  87   1        
+  88   1      }
+  89          
+  90          void Task_Mode_2() _task_ MODE_2
+  91          {
+  92   1        
+  93   1      }
+  94          void Debug()  _task_   DEBUG
+  95          {   for(;;)
+  96   1        {
+  97   2         sendScopeData (getAngle(PRESENT_ANGLE),1);
+  98   2            os_wait(K_IVL,25,0);//Â∞ÜËøõÁ®ãÂë®ÊúüÊÄßÂ†µÂ°û
+  99   2        
+ 100   2        }
+ 101   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    121    ----
+   CODE SIZE        =    142    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

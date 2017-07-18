@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   BUTTON                                                               07/18/2017 10:24:40 PAGE 1   
+C51 COMPILER V8.05a   BUTTON                                                               07/18/2017 19:07:04 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE BUTTON
@@ -62,7 +62,7 @@ line level    source
   50          static bit BUTTON1_bit=0;
   51          static bit BUTTON2_bit=0;
   52          static bit BUTTON3_bit=0;
-C51 COMPILER V8.05a   BUTTON                                                               07/18/2017 10:24:40 PAGE 2   
+C51 COMPILER V8.05a   BUTTON                                                               07/18/2017 19:07:04 PAGE 2   
 
   53          static bit BUTTON4_bit=0;
   54          /*************************************************
@@ -99,7 +99,7 @@ line level    source
   85          * 其他说明: 此按键检测程序没有使用到定时器，
   86          *           将在后续的工程中改进此函数
   87          *************************************************/
-  88          void  buttonScan(void )//按键扫描函数
+  88          void  buttonScan(void )//按键扫描函数 ,有bug
   89          {
   90   1          if(digitalRead(BUTTON1))
   91   1          {
@@ -126,7 +126,7 @@ line level    source
  112   3              }
  113   2          }
  114   1          else
-C51 COMPILER V8.05a   BUTTON                                                               07/18/2017 10:24:40 PAGE 3   
+C51 COMPILER V8.05a   BUTTON                                                               07/18/2017 19:07:04 PAGE 3   
 
  115   1          {
  116   2              BUTTON2_bit=0;

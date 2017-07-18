@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   MODE                                                                 07/18/2017 17:09:21 PAGE 1   
+C51 COMPILER V8.05a   MODE                                                                 07/18/2017 18:03:54 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE MODE
@@ -62,7 +62,7 @@ line level    source
   52   3                          {
   53   4      
   54   4                            if(isStopped(Timer1)) //只有当定时器是停止状态时才启动定时器。
-C51 COMPILER V8.05a   MODE                                                                 07/18/2017 17:09:21 PAGE 2   
+C51 COMPILER V8.05a   MODE                                                                 07/18/2017 18:03:54 PAGE 2   
 
   55   4                              {
   56   5                                restartTimer(Timer1);
@@ -126,7 +126,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-C51 COMPILER V8.05a   MODE                                                                 07/18/2017 17:09:21 PAGE 3   
+C51 COMPILER V8.05a   MODE                                                                 07/18/2017 18:03:54 PAGE 3   
 
    CODE SIZE        =    223    ----
    CONSTANT SIZE    =     39    ----

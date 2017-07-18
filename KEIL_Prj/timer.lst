@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   TIMER                                                                07/18/2017 10:21:25 PAGE 1   
+C51 COMPILER V8.05a   TIMER                                                                07/18/2017 17:37:32 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE TIMER
@@ -62,7 +62,7 @@ line level    source
   52          static u8 seconds = 0;
   53          static u8 minutes = 0;
   54          static u8 hours = 0;
-C51 COMPILER V8.05a   TIMER                                                                07/18/2017 10:21:25 PAGE 2   
+C51 COMPILER V8.05a   TIMER                                                                07/18/2017 17:37:32 PAGE 2   
 
   55          static u8 days = 0;
   56          
@@ -126,7 +126,7 @@ line level    source
  108   1        {
  109   2          PrintString1("Timer1 initializing failed \n");
  110   2        }
-C51 COMPILER V8.05a   TIMER                                                                07/18/2017 10:21:25 PAGE 3   
+C51 COMPILER V8.05a   TIMER                                                                07/18/2017 17:37:32 PAGE 3   
 
  111   1      
  112   1        //用户自定义定时器  
@@ -190,7 +190,7 @@ line level    source
  170   3          }
  171   2        }
  172   1      }
-C51 COMPILER V8.05a   TIMER                                                                07/18/2017 10:21:25 PAGE 4   
+C51 COMPILER V8.05a   TIMER                                                                07/18/2017 17:37:32 PAGE 4   
 
  173          //************************************
  174          // Method:    getTimerout
@@ -254,7 +254,7 @@ line level    source
  232          {
  233   1        switch (whichTimer)
  234   1        {
-C51 COMPILER V8.05a   TIMER                                                                07/18/2017 10:21:25 PAGE 5   
+C51 COMPILER V8.05a   TIMER                                                                07/18/2017 17:37:32 PAGE 5   
 
  235   2      
  236   2          break;
@@ -318,7 +318,7 @@ line level    source
  294   2        {
  295   3          return  Timer1_state == ACTIVE;
  296   3      
-C51 COMPILER V8.05a   TIMER                                                                07/18/2017 10:21:25 PAGE 6   
+C51 COMPILER V8.05a   TIMER                                                                07/18/2017 17:37:32 PAGE 6   
 
  297   3        };
  298   2        case Timer2:
@@ -382,7 +382,7 @@ line level    source
  356          
  357          //
  358          //************************************
-C51 COMPILER V8.05a   TIMER                                                                07/18/2017 10:21:25 PAGE 7   
+C51 COMPILER V8.05a   TIMER                                                                07/18/2017 17:37:32 PAGE 7   
 
  359          // Method:    restartTimer
  360          // FullName:  restartTimer
@@ -446,7 +446,7 @@ line level    source
  418          {
  419   1      
  420   1        return  micros;
-C51 COMPILER V8.05a   TIMER                                                                07/18/2017 10:21:25 PAGE 8   
+C51 COMPILER V8.05a   TIMER                                                                07/18/2017 17:37:32 PAGE 8   
 
  421   1      }
  422          //获取从开机后的毫秒数
@@ -510,7 +510,7 @@ line level    source
  480   1        if ((micros += 10) >= 1000)
  481   1        {
  482   2          micros = 0;
-C51 COMPILER V8.05a   TIMER                                                                07/18/2017 10:21:25 PAGE 9   
+C51 COMPILER V8.05a   TIMER                                                                07/18/2017 17:37:32 PAGE 9   
 
  483   2          if ((++millis) >= 1000)
  484   2          {
@@ -574,7 +574,7 @@ line level    source
  541   2          if (TIMx->TIM_ClkOut == ENABLE) INT_CLKO |= 0x01; //输出时钟
  542   2      
  543   2          TH0 = (u8)(TIMx->TIM_Value >> 8);
-C51 COMPILER V8.05a   TIMER                                                                07/18/2017 10:21:25 PAGE 10  
+C51 COMPILER V8.05a   TIMER                                                                07/18/2017 17:37:32 PAGE 10  
 
  544   2          TL0 = (u8)TIMx->TIM_Value;
  545   2          if (TIMx->TIM_Run == ENABLE)  TR0 = 1;  //开始运行
@@ -638,7 +638,7 @@ line level    source
  603   1      
  604   1        if (TIM == Timer4)    //Timer4,固定为16位自动重装, 中断无优先级
  605   1        {
-C51 COMPILER V8.05a   TIMER                                                                07/18/2017 10:21:25 PAGE 11  
+C51 COMPILER V8.05a   TIMER                                                                07/18/2017 17:37:32 PAGE 11  
 
  606   2          if (TIMx->TIM_ClkSource > TIM_CLOCK_Ext)  return 2;
  607   2          T4T3M &= 0x0f;    //停止计数, 定时模式, 12T模式, 不输出时钟

@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 17:09:28 PAGE 1   
+C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 19:47:00 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE MOTOR
@@ -62,7 +62,7 @@ line level    source
   52   1        set_PWM_duty(motor , speed);//根据不同电机乘于不同的增益
   53   1        g_DC_Motor[motor].speed = speed;
   54   1      }
-C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 17:09:28 PAGE 2   
+C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 19:47:00 PAGE 2   
 
   55          void open_DC_Motor(u8 motor)
   56          {
@@ -97,15 +97,15 @@ line level    source
   85   1        GPIO_InitStructure.Mode = GPIO_PullUp;
   86   1      
   87   1      
-  88   1        GPIO_InitStructure.Pin = GPIO_Pin_3;    //PWM2
-  89   1        GPIO_Inilize(GPIO_P2, &GPIO_InitStructure);  //初始化
+  88   1        GPIO_InitStructure.Pin = GPIO_Pin_7;    //PWM2
+  89   1        GPIO_Inilize(GPIO_P3, &GPIO_InitStructure);  //初始化
   90   1      
   91   1      
   92   1      
-  93   1        GPIO_InitStructure.Pin = GPIO_Pin_2;    //PWM4
+  93   1        GPIO_InitStructure.Pin = GPIO_Pin_1;    //PWM4
   94   1        GPIO_Inilize(GPIO_P2, &GPIO_InitStructure);  //初始化
-  95   1        P22 = 1;
-  96   1        P23 = 1;
+  95   1        P37 = 1;
+  96   1        P21 = 1;
   97   1      
   98   1      
   99   1        PWM_UNLOCK;
@@ -126,22 +126,23 @@ line level    source
  114   1        PWM_InitStructure.PWM_T2x_EN = DISABLE;
  115   1        PWM_InitStructure.PWM_EN = DISABLE;
  116   1        PWM_Inilize(PWM_2, &PWM_InitStructure);
-C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 17:09:28 PAGE 3   
+C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 19:47:00 PAGE 3   
 
  117   1        PWM_Inilize(PWM_3, &PWM_InitStructure);
- 118   1      
- 119   1        PWM_LOCK;
- 120   1      
+ 118   1        set_PWM_period (PWM_2,5000);
+ 119   1        set_PWM_period (PWM_3,5000);
+ 120   1        PWM_LOCK;
  121   1      
- 122   1      }
- 123          
- 124          #endif
- 125          
+ 122   1      
+ 123   1      }
+ 124          
+ 125          #endif
  126          
+ 127          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    317    ----
+   CODE SIZE        =    334    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =      4      25
    PDATA SIZE       =   ----    ----

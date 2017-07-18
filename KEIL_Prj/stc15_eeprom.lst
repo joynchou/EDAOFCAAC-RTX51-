@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   STC15_EEPROM                                                         07/18/2017 10:21:25 PAGE 1   
+C51 COMPILER V8.05a   STC15_EEPROM                                                         07/18/2017 17:37:32 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE STC15_EEPROM
@@ -62,7 +62,7 @@ line level    source
   50          {
   51   1        EA = 0;   //禁止中断
   52   1        ISP_CONTR = (ISP_EN + ISP_WAIT_FREQUENCY);  //设置等待时间，允许ISP/IAP操作，送一次就够
-C51 COMPILER V8.05a   STC15_EEPROM                                                         07/18/2017 10:21:25 PAGE 2   
+C51 COMPILER V8.05a   STC15_EEPROM                                                         07/18/2017 17:37:32 PAGE 2   
 
   53   1        ISP_READ();                 //送字节读命令，命令不需改变时，不需重新送命令
   54   1        do
@@ -126,7 +126,7 @@ line level    source
  112   2          ISP_ADDRH = EE_address / 256;   //送地址高字节（地址需要改变时才需重新送地址）
  113   2          ISP_ADDRL = EE_address % 256;   //送地址低字节
  114   2          ISP_DATA  = *DataAddress;     //送数据到ISP_DATA，只有数据改变时才需重新送
-C51 COMPILER V8.05a   STC15_EEPROM                                                         07/18/2017 10:21:25 PAGE 3   
+C51 COMPILER V8.05a   STC15_EEPROM                                                         07/18/2017 17:37:32 PAGE 3   
 
  115   2          ISP_TRIG();
  116   2          _nop_();
