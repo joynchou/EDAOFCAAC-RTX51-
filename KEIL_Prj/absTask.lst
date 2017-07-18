@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   ABSTASK                                                              07/18/2017 09:56:40 PAGE 1   
+C51 COMPILER V8.05a   ABSTASK                                                              07/18/2017 10:21:22 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE ABSTASK
@@ -62,7 +62,7 @@ line level    source
   48   1        unsigned int string[50];
   49   1        static unsigned int count = 0;
   50   1        u8 i=10;
-C51 COMPILER V8.05a   ABSTASK                                                              07/18/2017 09:56:40 PAGE 2   
+C51 COMPILER V8.05a   ABSTASK                                                              07/18/2017 10:21:22 PAGE 2   
 
   51   1        for (;;)
   52   1        {   i++;
@@ -126,7 +126,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-C51 COMPILER V8.05a   ABSTASK                                                              07/18/2017 09:56:40 PAGE 3   
+C51 COMPILER V8.05a   ABSTASK                                                              07/18/2017 10:21:22 PAGE 3   
 
    CODE SIZE        =    195    ----
    CONSTANT SIZE    =   ----    ----

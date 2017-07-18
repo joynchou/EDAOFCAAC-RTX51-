@@ -117,11 +117,11 @@ void test(void)//Æ÷¼þ²âÊÔ
 void setup(void)
 {
 	UART1_init(115200L);
-	// timerInit();
+	timerInit();
 	Board_LED_Init();
 	Button_config();
 	ADC_config(ADC_P10, ADC_540T);
-	//LCD1602_Init();
+	LCD1602_Init();
 	EA = 1;
   test();
 

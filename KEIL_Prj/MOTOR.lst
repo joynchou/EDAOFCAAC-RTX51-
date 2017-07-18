@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 09:56:42 PAGE 1   
+C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 10:21:23 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE MOTOR
@@ -62,7 +62,7 @@ line level    source
   52   1        set_PWM_duty(motor + 4, speed);//根据不同电机乘于不同的增益
   53   1        g_DC_Motor[motor].speed = speed;
   54   1      }
-C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 09:56:42 PAGE 2   
+C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 10:21:23 PAGE 2   
 
   55          void open_DC_Motor(u8 motor)
   56          {
@@ -126,7 +126,7 @@ line level    source
  114   1        PWM_InitStructure.PWM_T2x_EN = DISABLE;
  115   1        PWM_InitStructure.PWM_EN = DISABLE;
  116   1        PWM_Inilize(PWM_4, &PWM_InitStructure);
-C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 09:56:42 PAGE 3   
+C51 COMPILER V8.05a   MOTOR                                                                07/18/2017 10:21:23 PAGE 3   
 
  117   1        PWM_Inilize(PWM_5, &PWM_InitStructure);
  118   1      

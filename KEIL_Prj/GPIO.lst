@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   GPIO                                                                 07/18/2017 09:56:43 PAGE 1   
+C51 COMPILER V8.05a   GPIO                                                                 07/18/2017 10:21:25 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE GPIO
@@ -62,7 +62,7 @@ line level    source
   52   2              {
   53   3                  P0M1 |=  GPIOx->Pin,  P0M0 |=  GPIOx->Pin;    //开漏输出
   54   3              }
-C51 COMPILER V8.05a   GPIO                                                                 07/18/2017 09:56:43 PAGE 2   
+C51 COMPILER V8.05a   GPIO                                                                 07/18/2017 10:21:25 PAGE 2   
 
   55   2              if(GPIOx->Mode == GPIO_OUT_PP)
   56   2              {
@@ -126,7 +126,7 @@ line level    source
  114   3                  P3M1 &= ~GPIOx->Pin,  P3M0 |=  GPIOx->Pin;    //推挽输出
  115   3              }
  116   2          }
-C51 COMPILER V8.05a   GPIO                                                                 07/18/2017 09:56:43 PAGE 3   
+C51 COMPILER V8.05a   GPIO                                                                 07/18/2017 10:21:25 PAGE 3   
 
  117   1          if(GPIO == GPIO_P4)
  118   1          {

@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   SERVO                                                                07/18/2017 09:56:42 PAGE 1   
+C51 COMPILER V8.05a   SERVO                                                                07/18/2017 10:21:23 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE SERVO
@@ -62,7 +62,7 @@ line level    source
              -T_OD,GPIO_OUT_PP
   51   1      //    GPIO_InitStructure.Pin  = GPIO_Pin_1 ;    //指定要初始化的IO, GPIO_Pin_0 ~ GPIO_Pin_7, 或操作
   52   1      //    GPIO_Inilize(GPIO_P2,&GPIO_InitStructure);  //初始化
-C51 COMPILER V8.05a   SERVO                                                                07/18/2017 09:56:42 PAGE 2   
+C51 COMPILER V8.05a   SERVO                                                                07/18/2017 10:21:23 PAGE 2   
 
   53   1      
   54   1          P37=1;
@@ -126,7 +126,7 @@ line level    source
  110   1        {
  111   2          str_duty =  str_motor[MOTOR].Actual_Pulse_Width  / 20;
  112   2          set_PWM_duty(MOTOR,str_duty);
-C51 COMPILER V8.05a   SERVO                                                                07/18/2017 09:56:42 PAGE 3   
+C51 COMPILER V8.05a   SERVO                                                                07/18/2017 10:21:23 PAGE 3   
 
  113   2        }
  114   1          str_motor[MOTOR].Current_angle = str_motor[MOTOR].Set_angle;
