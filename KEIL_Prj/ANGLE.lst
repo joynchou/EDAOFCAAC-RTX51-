@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   ANGLE                                                                07/18/2017 10:21:24 PAGE 1   
+C51 COMPILER V8.05a   ANGLE                                                                07/18/2017 10:24:41 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE ANGLE
@@ -62,7 +62,7 @@ line level    source
   52          
   53          float getAngle(bit whichAngle)
   54          {
-C51 COMPILER V8.05a   ANGLE                                                                07/18/2017 10:21:24 PAGE 2   
+C51 COMPILER V8.05a   ANGLE                                                                07/18/2017 10:24:41 PAGE 2   
 
   55   1          u16 angleData[10];
   56   1        u8  angleDataloopTemp1=0;

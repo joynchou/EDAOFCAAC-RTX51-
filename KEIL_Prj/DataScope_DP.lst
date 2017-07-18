@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   DATASCOPE_DP                                                         07/18/2017 10:21:23 PAGE 1   
+C51 COMPILER V8.05a   DATASCOPE_DP                                                         07/18/2017 10:24:40 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE DATASCOPE_DP
@@ -62,7 +62,7 @@ line level    source
   52   2         }
   53   1      
   54   1       }
-C51 COMPILER V8.05a   DATASCOPE_DP                                                         07/18/2017 10:21:23 PAGE 2   
+C51 COMPILER V8.05a   DATASCOPE_DP                                                         07/18/2017 10:24:40 PAGE 2   
 
   55          
   56          //函数说明：将待发送通道的单精度浮点数据写入发送缓冲区
@@ -126,7 +126,7 @@ line level    source
  114   1          {
  115   2            DataScope_OutPut_Buffer[0] = '$';  //帧头
  116   2            switch(Channel_Number)
-C51 COMPILER V8.05a   DATASCOPE_DP                                                         07/18/2017 10:21:23 PAGE 3   
+C51 COMPILER V8.05a   DATASCOPE_DP                                                         07/18/2017 10:24:40 PAGE 3   
 
  117   2              {
  118   3                case 1:

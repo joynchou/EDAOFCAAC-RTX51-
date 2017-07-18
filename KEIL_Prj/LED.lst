@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   LED                                                                  07/18/2017 10:21:23 PAGE 1   
+C51 COMPILER V8.05a   LED                                                                  07/18/2017 10:24:40 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE LED
@@ -62,7 +62,7 @@ line level    source
   51   2             
   52   2           }
   53   1        
-C51 COMPILER V8.05a   LED                                                                  07/18/2017 10:21:23 PAGE 2   
+C51 COMPILER V8.05a   LED                                                                  07/18/2017 10:24:40 PAGE 2   
 
   54   1      }
 *** WARNING C280 IN LINE 46 OF ..\HARDWARE\DEVICES\LED\LED.C: 'luminance': unreferenced local variable

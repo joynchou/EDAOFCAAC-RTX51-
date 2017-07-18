@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   FIXEDPULSER                                                          07/18/2017 10:21:24 PAGE 1   
+C51 COMPILER V8.05a   FIXEDPULSER                                                          07/18/2017 10:24:41 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE FIXEDPULSER
@@ -62,7 +62,7 @@ line level    source
   52   1      }
   53          bool getPulserState(u8 pulser_num)
   54          {
-C51 COMPILER V8.05a   FIXEDPULSER                                                          07/18/2017 10:21:24 PAGE 2   
+C51 COMPILER V8.05a   FIXEDPULSER                                                          07/18/2017 10:24:41 PAGE 2   
 
   55   1      
   56   1        return g_pulser[pulser_num].state;
@@ -126,7 +126,7 @@ line level    source
  104   1        setPWM_DIV(PWM_7, 16);
  105   1      }
  106          
-C51 COMPILER V8.05a   FIXEDPULSER                                                          07/18/2017 10:21:24 PAGE 3   
+C51 COMPILER V8.05a   FIXEDPULSER                                                          07/18/2017 10:24:41 PAGE 3   
 
  107          static u32 g_PWM_7tmp = 0;//计数变量
  108          static u32 g_PWM_6tmp = 0;//计数变量
@@ -190,7 +190,7 @@ line level    source
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =    461    ----
-C51 COMPILER V8.05a   FIXEDPULSER                                                          07/18/2017 10:21:24 PAGE 4   
+C51 COMPILER V8.05a   FIXEDPULSER                                                          07/18/2017 10:24:41 PAGE 4   
 
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =     31      27
