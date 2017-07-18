@@ -98,8 +98,6 @@ bit PID(u8 PID_N)
 {
 
 
-	if (g_pid_n_info[PID_N].state)
-	{
 
 		g_pid_n_info[PID_N].err = g_pid_n_info[PID_N].setParameter - g_pid_n_info[PID_N].actualParameter;
 		//#ifdef  INTEGRAL_SEPARATE //是否使用积分分离法
@@ -127,8 +125,7 @@ bit PID(u8 PID_N)
 
 
 		return 1;
-	}
-
+	
 }
 //************************************
 // Method:    setParameterInferiorLimit
