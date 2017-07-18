@@ -24,6 +24,7 @@
 #include "../../HARDWARE/DEVICES/MOTOR/SERVO/SERVO.h"
 #include "../../HARDWARE/DEVICES/DISPLAY/1602/LCD1602.H"
 #include "../../HARDWARE/COMMON_HARDWARE/fixedPulser.h"
+#include "../ALGORITHM/PID/PID.h"
 
 
 
@@ -51,15 +52,10 @@ void    UART1_init(unsigned long BandRate)
 	USART_Configuration(USART1, &COMx_InitStructure);
 	// PrintString1("STC15w4k58s4's UART1 is open \r\n");   //´®¿Ú²âÊÔ
 }
+
 void setup(void)
 {
-	UART1_init(115200L);
-	timerInit();
-	Board_LED_Init();
-	Button_config();
-	ADC_config(ADC_P10, ADC_540T);
-	LCD1602_Init();
-	EA = 1;
+
 
 }
 

@@ -49,17 +49,17 @@ void setDC_MotorSpeed(u8 motor, float speed)
 	}
 
 	//	PWM_duty(PWM_2,speed*0.65f);//根据不同电机乘于不同的增益
-	set_PWM_duty(motor + 4, speed);//根据不同电机乘于不同的增益
+	set_PWM_duty(motor , speed);//根据不同电机乘于不同的增益
 	g_DC_Motor[motor].speed = speed;
 }
 void open_DC_Motor(u8 motor)
 {
-	open_PWM_N(motor + 4);
+	open_PWM_N(motor );
 	g_DC_Motor[motor].state = ON;
 }
 void close_DC_Motor(u8 motor)
 {
-	close_PWM_N(motor + 4);
+	close_PWM_N(motor );
 	g_DC_Motor[motor].state = OFF;
 
 
@@ -113,8 +113,8 @@ void    DC_MOTOR_config(void)
 	PWM_InitStructure.PWM_T1x_EN = DISABLE;
 	PWM_InitStructure.PWM_T2x_EN = DISABLE;
 	PWM_InitStructure.PWM_EN = DISABLE;
-	PWM_Inilize(PWM_4, &PWM_InitStructure);
-	PWM_Inilize(PWM_5, &PWM_InitStructure);
+	PWM_Inilize(PWM_2, &PWM_InitStructure);
+	PWM_Inilize(PWM_3, &PWM_InitStructure);
 
 	PWM_LOCK;
 

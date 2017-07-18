@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   SETUP                                                                07/18/2017 10:27:43 PAGE 1   
+C51 COMPILER V8.05a   SETUP                                                                07/18/2017 15:42:56 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE SETUP
@@ -34,51 +34,57 @@ line level    source
   24          #include "../../HARDWARE/DEVICES/MOTOR/SERVO/SERVO.h"
   25          #include "../../HARDWARE/DEVICES/DISPLAY/1602/LCD1602.H"
   26          #include "../../HARDWARE/COMMON_HARDWARE/fixedPulser.h"
-  27          
+  27          #include "../ALGORITHM/PID/PID.h"
   28          
   29          
-  30          /*************  串口1初始化函数 *****************/
-  31          /*************************************************
-  32          * 函数名称: void    UART1_init(unsigned long BandRate)
-  33          * 描述: 串口1初始化函数
-  34          * 输入: unsigned long BandRate ：串口的波特率，请在数值后加字母"L"，防止出问题
-  35          * 输出: 调用此函数会发送一段测试语句 “ STC15w4k58s4 UART1 is open ”
-  36          * 返回值: 无
-  37          * 其他说明: 无
-  38          *************************************************/
-  39          void    UART1_init(unsigned long BandRate)
-  40          {
-  41   1        COMx_InitDefine     COMx_InitStructure;
-  42   1        COMx_InitStructure.UART_Mode = UART_8bit_BRTx;
-  43   1        COMx_InitStructure.UART_BRT_Use = BRT_Timer2;
-  44   1        COMx_InitStructure.UART_BaudRate = BandRate;
-  45   1        COMx_InitStructure.UART_RxEnable = ENABLE;
-  46   1        COMx_InitStructure.BaudRateDouble = DISABLE;
-  47   1        COMx_InitStructure.UART_Interrupt = ENABLE;
-  48   1        COMx_InitStructure.UART_Polity = PolityHigh;
-  49   1        COMx_InitStructure.UART_P_SW = UART1_SW_P30_P31;
-  50   1        COMx_InitStructure.UART_RXD_TXD_Short = DISABLE;
-  51   1        USART_Configuration(USART1, &COMx_InitStructure);
-  52   1        // PrintString1("STC15w4k58s4's UART1 is open \r\n");   //串口测试
-  53   1      }
-  54          void setup(void)
-C51 COMPILER V8.05a   SETUP                                                                07/18/2017 10:27:43 PAGE 2   
+  30          
+  31          /*************  串口1初始化函数 *****************/
+  32          /*************************************************
+  33          * 函数名称: void    UART1_init(unsigned long BandRate)
+  34          * 描述: 串口1初始化函数
+  35          * 输入: unsigned long BandRate ：串口的波特率，请在数值后加字母"L"，防止出问题
+  36          * 输出: 调用此函数会发送一段测试语句 “ STC15w4k58s4 UART1 is open ”
+  37          * 返回值: 无
+  38          * 其他说明: 无
+  39          *************************************************/
+  40          void    UART1_init(unsigned long BandRate)
+  41          {
+  42   1        COMx_InitDefine     COMx_InitStructure;
+  43   1        COMx_InitStructure.UART_Mode = UART_8bit_BRTx;
+  44   1        COMx_InitStructure.UART_BRT_Use = BRT_Timer2;
+  45   1        COMx_InitStructure.UART_BaudRate = BandRate;
+  46   1        COMx_InitStructure.UART_RxEnable = ENABLE;
+  47   1        COMx_InitStructure.BaudRateDouble = DISABLE;
+  48   1        COMx_InitStructure.UART_Interrupt = ENABLE;
+  49   1        COMx_InitStructure.UART_Polity = PolityHigh;
+  50   1        COMx_InitStructure.UART_P_SW = UART1_SW_P30_P31;
+  51   1        COMx_InitStructure.UART_RXD_TXD_Short = DISABLE;
+  52   1        USART_Configuration(USART1, &COMx_InitStructure);
+  53   1        // PrintString1("STC15w4k58s4's UART1 is open \r\n");   //串口测试
+  54   1      }
+C51 COMPILER V8.05a   SETUP                                                                07/18/2017 15:42:56 PAGE 2   
 
-  55          {
-  56   1        UART1_init(115200L);
-  57   1        timerInit();
-  58   1        Board_LED_Init();
-  59   1        Button_config();
-  60   1        ADC_config(ADC_P10, ADC_540T);
-  61   1        LCD1602_Init();
-  62   1        EA = 1;
-  63   1      
-  64   1      }
-  65          
+  55          
+  56          void motorInit(void)
+  57          {
+  58   1        
+  59   1      }
+  60          void setup(void)
+  61          {
+  62   1        UART1_init(115200L);
+  63   1        timerInit();
+  64   1        Board_LED_Init();
+  65   1        Button_config();
+  66   1        ADC_config(ADC_P10, ADC_540T);
+  67   1        LCD1602_Init();
+  68   1        PID_config(PID_1,3.0f,0.02f,1.0f);
+  69   1      
+  70   1      }
+  71          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     77    ----
+   CODE SIZE        =    110    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----      13
    PDATA SIZE       =   ----    ----
