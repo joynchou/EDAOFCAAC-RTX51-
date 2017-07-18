@@ -26,29 +26,9 @@
 #define PID_2 1
 
 
- /*************************************************
- * º¯ÊıÃû³Æ:double getPID_data(u8 DATA)
- * ÃèÊö: ¶ÁÈ¡pid²ÎÊı
- * ÊäÈë: ¼ûºê¶¨Òå
- * Êä³ö:
- * ·µ»ØÖµ: ÏàÓ¦pid²ÎÊı
- * ÆäËûËµÃ÷: ÈôÃ»ÓĞÉèÖÃpid²ÎÊı¾ÍÖ±½Ó¶ÁÈ¡£¬Ôò½á¹ûÎ´Öª¡£
- *************************************************/
-float getPID_data(u8 DATA);
 
 
 
-/*************************************************
-* º¯ÊıÃû³Æ:void setPID_data(u8 DATA,float value)
-* ÃèÊö:  ÉèÖÃpidÈı¸ö²ÎÊıµÄº¯Êı£¬Ò»´ÎĞÔÖ»ÄÜÉèÖÃÒ»¸ö²ÎÊı
-*        ¿É×÷Îªµ÷ÕûPID²ÎÊıµÄ½Ó¿Ú¡£
-* ÊäÈë: u8 DATA £ºĞèÒª¸ü¸ÄµÄ²ÎÊıÃû³Æ£¬Îªºê¶¨Òå,
-float value£º²ÎÊıÖµ
-* Êä³ö: ÎŞ
-* ·µ»ØÖµ: ÎŞ
-* ÆäËûËµÃ÷: ÎŞ
-*************************************************/
-void setPID_data(u8 DATA, float value);
 
 /*************************************************
 * º¯ÊıÃû³Æ: void PID_config(float kp,float ki,float kd)
@@ -70,19 +50,19 @@ void PID_config(u8 PID_N, float kp, float ki, float kd);//pidËã·¨³õÊ¼»¯º¯Êı£¬²ÎÊ
 void openPID(u8 PID_N);
 void closePID(u8 PID_N);
 bit PID(u8 PID_N);
-void setParameterInferiorLimit(u8 PID_N, float value);
-void setParameterUpperLimit(u8 PID_N, float value);
-void setActualParameter(u8 PID_N, float value);
-void setKi(u8 PID_N, float value);
-void setKp(u8 PID_N, float value);
-void setKd(u8 PID_N, float value);
-void setParameter(u8 PID_N, float value);
-float getParameter(u8 PID_N);
-float getErr(u8 PID_N);
-float getErrLast(u8 PID_N);
-float getKp(u8 PID_N);
-float getKi(u8 PID_N);
-float getKd(u8 PID_N);
-float getOutput(u8 PID_N);
-float getIntegral(u8 PID_N);
+void PID_setParameterInferiorLimit(u8 PID_N, float value);
+void PID_setParameterUpperLimit(u8 PID_N, float value);
+void PID_setActualParameter(u8 PID_N, float value);
+void PID_setKi(u8 PID_N, float value);
+void PID_setKp(u8 PID_N, float value);
+void PID_setKd(u8 PID_N, float value);
+void PID_setTargetParameter(u8 PID_N, float value);
+float PID_getParameter(u8 PID_N);
+float PID_getErr(u8 PID_N);
+float PID_getErrLast(u8 PID_N);
+float PID_getKp(u8 PID_N);
+float PID_getKi(u8 PID_N);
+float PID_getKd(u8 PID_N);
+float PID_getOutput(u8 PID_N);
+float PID_getIntegral(u8 PID_N);
 #endif

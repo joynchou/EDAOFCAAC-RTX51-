@@ -28,9 +28,16 @@ void Task_Button() _task_ BUTTON
 	
 }
 
-void Task_Angle() _task_ ANGLE
+void Task_Angle() _task_ ANGLE //获取角度并将角度带入pid算法中计算
 {
-	
+	openPID(PID_1);
+	for (;;)
+	{
+		PID_setActualParameter(PID_1, getAngle(PRESENT_ANGLE));//设置pid的实际参数,并读取角度
+		PID(PID_1);//PID算法
+		os_wait(K_IVL,10,0);//将进程周期性堵塞
+
+	}
 }
 
 void Task_Mode_1() _task_ MODE_1
