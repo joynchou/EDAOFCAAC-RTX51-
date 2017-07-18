@@ -13,37 +13,64 @@
 #include "../SOFTWARE/ALGORITHM/PID/PID.H"
 #include "../../HARDWARE/DEVICES/MOTOR/DC_MOTOR/MOTOR.h"
 
-#define INIT 0//³õÊ¼»¯
-#define BUTTON 1//°´¼ü¼ì²â
-#define ANGLE 2//½Ç¶È¿ØÖÆ
-#define MODE_1 3//ÌâÄ¿Ò»
-#define MODE_2 4//ÌâÄ¿¶ş
+#define INIT 0//åˆå§‹åŒ–
+#define BUTTON 1//æŒ‰é”®æ£€æµ‹
+#define ANGLE 2//è§’åº¦æ§åˆ¶
+#define MODE_1 3//é¢˜ç›®ä¸€
+#define MODE_2 4//é¢˜ç›®äºŒ
+
+#define MODE_3 5//
+#define MODE_4 6//
+
 #define DEBUG 7
+
 
 void Task_Init() _task_ INIT
 {
-	
+	setup();
+	os_create_task(BUTTON);
+	os_delete_task(INIT);
 }
 
 void Task_Button() _task_ BUTTON
 {
-	
+	buttonScan();
+	if(getButtonState(BUTTON1))
+	{
+		os_create_task(MODE_1);
+		os_delete_task(BUTTON);
+	}
+	else if(getButtonState(BUTTON2))
+	{
+		os_create_task(MODE_2);
+		os_delete_task(BUTTON);
+	}
+	else if(getButtonState(BUTTON3))
+	{
+		os_create_task(MODE_3);
+		os_delete_task(BUTTON);		
+	}
+	else if(getButtonState(BUTTON4))
+	{
+		os_create_task(MODE_4);
+		os_delete_task(BUTTON);
+	}	
 }
 
-void Task_Angle() _task_ ANGLE //»ñÈ¡½Ç¶È²¢½«½Ç¶È´øÈëpidËã·¨ÖĞ¼ÆËã
+void Task_Angle() _task_ ANGLE //è·å–è§’åº¦å¹¶å°†è§’åº¦å¸¦å…¥pidç®—æ³•ä¸­è®¡ç®—
 {
 	openPID(PID_1);
 	for (;;)
 	{
 		
-		PID_setActualParameter(PID_1, getAngle(PRESENT_ANGLE));//ÉèÖÃpidµÄÊµ¼Ê²ÎÊı,²¢¶ÁÈ¡½Ç¶È
+		PID_setActualParameter(PID_1, getAngle(PRESENT_ANGLE));//è®¾ç½®pidçš„å®é™…å‚æ•°,å¹¶è¯»å–è§’åº¦
 		if(PID_getState(PID_1)&&(getDC_MotorState(LEFT_MOTOR)||getDC_MotorState(RIGHT_MOTOR)))
 		{
-		PID(PID_1);//PIDËã·¨
+		PID(PID_1);//PIDç®—æ³•
 		setBoardWithAngle(PID_getOutput(PID_1)+PID_getParameter(PID_1));
 
 		}
-		os_wait(K_IVL,10,0);//½«½ø³ÌÖÜÆÚĞÔ¶ÂÈû
+		os_wait(K_IVL,10,0);//å°†è¿›ç¨‹å‘¨æœŸæ€§å µå¡
 
 	}
 }
@@ -61,7 +88,7 @@ void Debug()  _task_   DEBUG
 {   for(;;)
 	{
 	 sendScopeData (getAngle(PRESENT_ANGLE),1);
-			os_wait(K_IVL,25,0);//½«½ø³ÌÖÜÆÚĞÔ¶ÂÈû
+			os_wait(K_IVL,25,0);//å°†è¿›ç¨‹å‘¨æœŸæ€§å µå¡
 	
 	}
 }
