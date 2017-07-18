@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   SETUP                                                                07/18/2017 15:42:56 PAGE 1   
+C51 COMPILER V8.05a   SETUP                                                                07/18/2017 17:09:27 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE SETUP
@@ -9,14 +9,14 @@ COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\SOFTWARE\TASK\setup.c LARGE B
 line level    source
 
    1          /************************************************************
-   2          * ×éÖ¯Ãû³Æ£º
-   3          * ÎÄ¼þÃû³Æ: K:\µ¥Æ¬»úÏà¹Ø\µç×Ó´óÈü³ÌÐò¿ò¼Ü\SOFTWARE\TASK\SETUP.C
-   4          * ×÷Õß:     ÖÜ³¿Ñô 
-   5          * °æ±¾:    
-   6          * ÈÕÆÚ:     2017/07/18
-   7          * ÃèÊö:   ³õÊ¼»¯Æ÷¼þºÍ²âÊÔÆ÷¼þÊ¹ÓÃ
-   8          * ÀúÊ·ÐÞ¸Ä¼ÇÂ¼:
-   9          * <×÷Õß> <Ê±¼ä> <°æ±¾ > <ÃèÊö>
+   2          * ç»„ç»‡åç§°ï¼?
+   3          * æ–‡ä»¶åç§°: K:\å•ç‰‡æœºç›¸å…³\ç”µå­å¤§èµ›ç¨‹åºæ¡†æž¶\SOFTWARE\TASK\SETUP.C
+   4          * ä½œè€?     å‘¨æ™¨é˜?
+   5          * ç‰ˆæœ¬:    
+   6          * æ—¥æœŸ:     2017/07/18
+   7          * æè¿°:   åˆå§‹åŒ–å™¨ä»¶å’Œæµ‹è¯•å™¨ä»¶ä½¿ç”¨
+   8          * åŽ†å²ä¿®æ”¹è®°å½•:
+   9          * <ä½œè€? <æ—¶é—´> <ç‰ˆæœ¬ > <æè¿°>
   10          * 
   11          ***********************************************************/
   12          
@@ -34,57 +34,61 @@ line level    source
   24          #include "../../HARDWARE/DEVICES/MOTOR/SERVO/SERVO.h"
   25          #include "../../HARDWARE/DEVICES/DISPLAY/1602/LCD1602.H"
   26          #include "../../HARDWARE/COMMON_HARDWARE/fixedPulser.h"
-  27          #include "../ALGORITHM/PID/PID.h"
-  28          
+  27          
+  28          #include "../ALGORITHM/PID/PID.h"
   29          
   30          
-  31          /*************  ´®¿Ú1³õÊ¼»¯º¯Êý *****************/
-  32          /*************************************************
-  33          * º¯ÊýÃû³Æ: void    UART1_init(unsigned long BandRate)
-  34          * ÃèÊö: ´®¿Ú1³õÊ¼»¯º¯Êý
-  35          * ÊäÈë: unsigned long BandRate £º´®¿ÚµÄ²¨ÌØÂÊ£¬ÇëÔÚÊýÖµºó¼Ó×ÖÄ¸"L"£¬·ÀÖ¹³öÎÊÌâ
-  36          * Êä³ö: µ÷ÓÃ´Ëº¯Êý»á·¢ËÍÒ»¶Î²âÊÔÓï¾ä ¡° STC15w4k58s4 UART1 is open ¡±
-  37          * ·µ»ØÖµ: ÎÞ
-  38          * ÆäËûËµÃ÷: ÎÞ
-  39          *************************************************/
-  40          void    UART1_init(unsigned long BandRate)
-  41          {
-  42   1        COMx_InitDefine     COMx_InitStructure;
-  43   1        COMx_InitStructure.UART_Mode = UART_8bit_BRTx;
-  44   1        COMx_InitStructure.UART_BRT_Use = BRT_Timer2;
-  45   1        COMx_InitStructure.UART_BaudRate = BandRate;
-  46   1        COMx_InitStructure.UART_RxEnable = ENABLE;
-  47   1        COMx_InitStructure.BaudRateDouble = DISABLE;
-  48   1        COMx_InitStructure.UART_Interrupt = ENABLE;
-  49   1        COMx_InitStructure.UART_Polity = PolityHigh;
-  50   1        COMx_InitStructure.UART_P_SW = UART1_SW_P30_P31;
-  51   1        COMx_InitStructure.UART_RXD_TXD_Short = DISABLE;
-  52   1        USART_Configuration(USART1, &COMx_InitStructure);
-  53   1        // PrintString1("STC15w4k58s4's UART1 is open \r\n");   //´®¿Ú²âÊÔ
-  54   1      }
-C51 COMPILER V8.05a   SETUP                                                                07/18/2017 15:42:56 PAGE 2   
+  31          
+  32          
+  33          /*************  ä¸²å£1åˆå§‹åŒ–å‡½æ•?*****************/
+  34          /*************************************************
+  35          * å‡½æ•°åç§°: void    UART1_init(unsigned long BandRate)
+  36          * æè¿°: ä¸²å£1åˆå§‹åŒ–å‡½æ•?
+  37          * è¾“å…¥: unsigned long BandRate ï¼šä¸²å£çš„æ³¢ç‰¹çŽ‡ï¼Œè¯·åœ¨æ•°å€¼åŽåŠ å­—æ¯?L"ï¼Œé˜²æ­¢å‡ºé—®é¢˜
+  38          * è¾“å‡º: è°ƒç”¨æ­¤å‡½æ•°ä¼šå‘é€ä¸€æ®µæµ‹è¯•è¯­å?â€?STC15w4k58s4 UART1 is open â€?
+  39          * è¿”å›žå€? æ—?
+  40          * å…¶ä»–è¯´æ˜Ž: æ—?
+  41          *************************************************/
+  42          void    UART1_init(unsigned long BandRate)
+  43          {
+  44   1        COMx_InitDefine     COMx_InitStructure;
+  45   1        COMx_InitStructure.UART_Mode = UART_8bit_BRTx;
+  46   1        COMx_InitStructure.UART_BRT_Use = BRT_Timer2;
+  47   1        COMx_InitStructure.UART_BaudRate = BandRate;
+  48   1        COMx_InitStructure.UART_RxEnable = ENABLE;
+  49   1        COMx_InitStructure.BaudRateDouble = DISABLE;
+  50   1        COMx_InitStructure.UART_Interrupt = ENABLE;
+  51   1        COMx_InitStructure.UART_Polity = PolityHigh;
+  52   1        COMx_InitStructure.UART_P_SW = UART1_SW_P30_P31;
+  53   1        COMx_InitStructure.UART_RXD_TXD_Short = DISABLE;
+  54   1        USART_Configuration(USART1, &COMx_InitStructure);
+C51 COMPILER V8.05a   SETUP                                                                07/18/2017 17:09:27 PAGE 2   
 
-  55          
-  56          void motorInit(void)
-  57          {
-  58   1        
-  59   1      }
-  60          void setup(void)
-  61          {
-  62   1        UART1_init(115200L);
-  63   1        timerInit();
-  64   1        Board_LED_Init();
-  65   1        Button_config();
-  66   1        ADC_config(ADC_P10, ADC_540T);
+  55   1        // PrintString1("STC15w4k58s4's UART1 is open \r\n");   //ä¸²å£æµ‹è¯•
+  56   1      }
+  57          
+  58          void setup(void)
+  59          {
+  60   1      
+  61   1        UART1_init(115200L);
+  62   1        timerInit();
+  63   1        Board_LED_Init();
+  64   1        Button_config();
+  65   1        ADC_config(ADC_P10, ADC_540T);
+  66   1        DC_MOTOR_config();
   67   1        LCD1602_Init();
   68   1        PID_config(PID_1,3.0f,0.02f,1.0f);
-  69   1      
-  70   1      }
-  71          
+  69   1        PID_setParameterInferiorLimit(PID_1,0.0f);
+  70   1        PID_setParameterUpperLimit(PID_1,200.0f);
+  71   1        EA = 1;
+  72   1      
+  73   1      
+  74   1      }
+  75          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    110    ----
+   CODE SIZE        =    145    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----      13
    PDATA SIZE       =   ----    ----

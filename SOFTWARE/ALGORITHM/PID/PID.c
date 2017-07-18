@@ -100,23 +100,23 @@ bit PID(u8 PID_N)
 
 
 		g_pid_n_info[PID_N].err = g_pid_n_info[PID_N].PID_setTargetParameter - g_pid_n_info[PID_N].actualParameter;
-		//#ifdef  INTEGRAL_SEPARATE //是否使用积分分离法
-		//  if(abs(pid.err)<15.0f)//积分分离法，防止误差过大时积分累积过大造成震荡，同时减小比例和微分
-		//    {
-		//      pid.Ki        =        Ki_temp;
-		//      pid.integral  +=       pid.err;
-		//      pid.Kp        =        Kp_temp-0.7f;
-		//      pid.Kd        =        Kd_temp-0.5f;
-		//    }
-		//  else//误差过大时去除积分项和累计误差 ，仅使用比例和微分 ，同时在原基础上加大微分的作用
-		//    {
-		//      pid.Ki        =        0;
-		//      pid.integral  =        0;
-		//      pid.Kd        =        Kd_temp+0.5f;
-		//    }
-		//#else
+		#ifdef  INTEGRAL_SEPARATE //是否使用积分分离法
+		  if(abs(g_pid_n_info[PID_N].err)<15.0f)//积分分离法，防止误差过大时积分累积过大造成震荡，同时减小比例和微分
+		    {
+		     g_pid_n_info[PID_N].Ki        =        g_pid_n_info[PID_N].Ki_temp;
+		      g_pid_n_info[PID_N].integral  +=       g_pid_n_info[PID_N].err;
+		      g_pid_n_info[PID_N].Kp        =        g_pid_n_info[PID_N].Kp_temp-0.7f;
+		     g_pid_n_info[PID_N].Kd        =        g_pid_n_info[PID_N].Kd_temp-0.5f;
+		    }
+		  else//误差过大时去除积分项和累计误差 ，仅使用比例和微分 ，同时在原基础上加大微分的作用
+		    {
+		      g_pid_n_info[PID_N].Ki        =        0;
+		      g_pid_n_info[PID_N].integral  =        0;
+		     g_pid_n_info[PID_N].Kd        =        g_pid_n_info[PID_N].Kd_temp+0.5f;
+		    }
+		#else
 		g_pid_n_info[PID_N].integral += g_pid_n_info[PID_N].err;
-		//#endif
+		#endif
 		//PID算法核心
 		g_pid_n_info[PID_N].output  = g_pid_n_info[PID_N].Kp*g_pid_n_info[PID_N].err		  \
 									+ g_pid_n_info[PID_N].Ki*g_pid_n_info[PID_N].integral     \
@@ -329,6 +329,10 @@ float PID_getOutput(u8 PID_N)
 float PID_getIntegral(u8 PID_N)
 {
 	return  g_pid_n_info[PID_N].integral;
+}
+bit PID_getState(u8 PID_N)
+{
+	return g_pid_n_info[PID_N].state;
 }
 #endif
 

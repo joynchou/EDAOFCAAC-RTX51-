@@ -1,4 +1,4 @@
-C51 COMPILER V8.05a   MODE                                                                 07/18/2017 16:00:21 PAGE 1   
+C51 COMPILER V8.05a   MODE                                                                 07/18/2017 17:09:21 PAGE 1   
 
 
 C51 COMPILER V8.05a, COMPILATION OF MODULE MODE
@@ -35,91 +35,107 @@ line level    source
   25   4                          }
   26   3                        else//如果步骤三没有完成
   27   3                          {
-  28   4                            stopMotor();
-*** WARNING C206 IN LINE 28 OF ..\SOFTWARE\TASK\MODE.C: 'stopMotor': missing function-prototype
-  29   4                            step3=OK;
-  30   4                            PrintString1("step3 is ok\n");
-  31   4      
-  32   4                          }
-  33   3      
-  34   3                      }
-  35   2                    else //如果步骤二没有完成
-  36   2                      {
-  37   3                        setTimeout(Timer1,5000); //设置定时器定时长度 ,5秒
-  38   3                        //////////////////////定时器////////////////////////////////////////
-  39   3                        if(isExpiredTimer(Timer1))   //如果达到定时时间
-  40   3                          {
-  41   4      
-  42   4                            setMotorSpeed(LEFT_MOTOR,0.01f);
-*** WARNING C206 IN LINE 42 OF ..\SOFTWARE\TASK\MODE.C: 'setMotorSpeed': missing function-prototype
-*** ERROR C267 IN LINE 42 OF ..\SOFTWARE\TASK\MODE.C: 'setMotorSpeed': requires ANSI-style prototype
-  43   4                            setMotorSpeed(RIGHT_MOTOR,0.99f);
-  44   4                            stopMotor();
-  45   4                            step2=OK;
-  46   4                            PrintString1("step2 is ok\n");
-  47   4                          }
-  48   3                        else//如果未达到定时时间或定时器未启动
-  49   3                          {
-  50   4      
-  51   4                            if(isStopped(Timer1)) //只有当定时器是停止状态时才启动定时器。
-C51 COMPILER V8.05a   MODE                                                                 07/18/2017 16:00:21 PAGE 2   
+  28   4                            close_DC_Motor(LEFT_MOTOR);
+  29   4                            close_DC_Motor(RIGHT_MOTOR);
+  30   4      
+  31   4                            step3=OK;
+  32   4                            PrintString1("step3 is ok\n");
+  33   4      
+  34   4                          }
+  35   3      
+  36   3                      }
+  37   2                    else //如果步骤二没有完成
+  38   2                      {
+  39   3                        setTimeout(Timer1,5000); //设置定时器定时长度 ,5秒
+  40   3                        //////////////////////定时器////////////////////////////////////////
+  41   3                        if(isExpiredTimer(Timer1))   //如果达到定时时间
+  42   3                          {
+  43   4      
+  44   4                            setDC_MotorSpeed(LEFT_MOTOR,0.01f);
+  45   4                            setDC_MotorSpeed(RIGHT_MOTOR,0.99f);
+  46   4                            close_DC_Motor(RIGHT_MOTOR);
+  47   4                             close_DC_Motor(LEFT_MOTOR);
+  48   4                            step2=OK;
+  49   4                            PrintString1("step2 is ok\n");
+  50   4                          }
+  51   3                        else//如果未达到定时时间或定时器未启动
+  52   3                          {
+  53   4      
+  54   4                            if(isStopped(Timer1)) //只有当定时器是停止状态时才启动定时器。
+C51 COMPILER V8.05a   MODE                                                                 07/18/2017 17:09:21 PAGE 2   
 
-  52   4                              {
-  53   5                                restartTimer(Timer1);
-  54   5      
-  55   5                              }
-  56   4                          }
-  57   3                        ////////////////////////////////////////////////////////////////
-  58   3      
-  59   3                      }
-  60   2                  }
-  61   1                else //如果步骤一没有完成
-  62   1                  {
-  63   2                    setPID_data(SET_ANGLE,100); //设定稳定角度
-  64   2                    setTimeout(Timer1,5000); //设置定时器定时长度 ,3秒
-  65   2                    startMotor();//电机开始工作
-  66   2                    if(abs(getPID_data(ERR))<2.0f)//当误差小于2°时，认为达到稳定,定时器就开始计时
-  67   2                      {
-  68   3                        //////////////////////定时器////////////////////////////////////////
-  69   3                        if(isExpiredTimer(Timer1))   //如果达到定时时间
-  70   3                          {
-  71   4                            stopTimer(Timer1);//达到定时时间后关闭定时器
-  72   4                            step1=OK; //步骤一完成 ，已经达到稳定状态，蜂鸣器响一下
-  73   4                            PrintString1("step1 is ok\n");
-  74   4                          }
-  75   3                        else//如果未达到定时时间或定时器未启动
-  76   3                          {
-  77   4      
-  78   4                            if(isStopped(Timer1)) //只有当定时器是停止状态时才启动定时器。
-  79   4                              {
-  80   5                                restartTimer(Timer1);
-  81   5      
-  82   5                              }
-  83   4                          }
-  84   3                        ////////////////////////////////////////////////////////////////
-  85   3                      }
-  86   2                  }
-  87   1      
-  88   1      }
-  89          
-  90          void mode2(void)
-  91          {
-  92   1        
+  55   4                              {
+  56   5                                restartTimer(Timer1);
+  57   5      
+  58   5                              }
+  59   4                          }
+  60   3                        ////////////////////////////////////////////////////////////////
+  61   3      
+  62   3                      }
+  63   2                  }
+  64   1                else //如果步骤一没有完成
+  65   1                  {
+  66   2                    PID_setTargetParameter(PID_1,100); //设定稳定角度
+  67   2                    setTimeout(Timer1,5000); //设置定时器定时长度 ,5秒
+  68   2                    open_DC_Motor(LEFT_MOTOR);//电机开始工作
+  69   2                    open_DC_Motor(RIGHT_MOTOR);//电机开始工作
+  70   2                    openPID(PID_1);
+  71   2                    if(abs(PID_getErr(PID_1))<2.0f)//当误差小于2°时，认为达到稳定,定时器就开始计时
+  72   2                      {
+  73   3                        //////////////////////定时器////////////////////////////////////////
+  74   3                        if(isExpiredTimer(Timer1))   //如果达到定时时间
+  75   3                          {
+  76   4                            stopTimer(Timer1);//达到定时时间后关闭定时器
+  77   4                            step1=OK; //步骤一完成 ，已经达到稳定状态，蜂鸣器响一下
+  78   4                            PrintString1("step1 is ok\n");
+  79   4                          }
+  80   3                        else//如果未达到定时时间或定时器未启动
+  81   3                          {
+  82   4      
+  83   4                            if(isStopped(Timer1)) //只有当定时器是停止状态时才启动定时器。
+  84   4                              {
+  85   5                                restartTimer(Timer1);
+  86   5      
+  87   5                              }
+  88   4                          }
+  89   3                        ////////////////////////////////////////////////////////////////
+  90   3                      }
+  91   2                  }
+  92   1      
   93   1      }
   94          
-  95          
-  96          void mode3(void)
-  97          {
-  98   1        
-  99   1      }
+  95          void mode2(void)
+  96          {
+  97   1        
+  98   1      }
+  99          
  100          
- 101          void mode4(void)
+ 101          void mode3(void)
  102          {
  103   1        
  104   1      }
- 105          void modeLauncher(void)
- 106          {
- 107   1        
- 108   1      }
+ 105          
+ 106          void mode4(void)
+ 107          {
+ 108   1        
+ 109   1      }
+ 110          void modeLauncher(void)
+ 111          {
+ 112   1        
+ 113   1      }
 
-C51 COMPILATION COMPLETE.  2 WARNING(S),  1 ERROR(S)
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+C51 COMPILER V8.05a   MODE                                                                 07/18/2017 17:09:21 PAGE 3   
+
+   CODE SIZE        =    223    ----
+   CONSTANT SIZE    =     39    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      3    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
