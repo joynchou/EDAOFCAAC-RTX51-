@@ -1,12 +1,12 @@
 /************************************************************
-* ×éÖ¯Ãû³Æ£º
-* ÎÄ¼şÃû³Æ: K:\µ¥Æ¬»úÏà¹Ø\µç×Ó´óÈü³ÌĞò¿ò¼Ü\SOFTWARE\TASK\SETUP.C
-* ×÷Õß:     ÖÜ³¿Ñô 
-* °æ±¾:    
-* ÈÕÆÚ:     2017/07/18
-* ÃèÊö:		³õÊ¼»¯Æ÷¼şºÍ²âÊÔÆ÷¼şÊ¹ÓÃ
-* ÀúÊ·ĞŞ¸Ä¼ÇÂ¼:
-* <×÷Õß> <Ê±¼ä> <°æ±¾ > <ÃèÊö>
+* ç»„ç»‡åç§°ï¼š
+* æ–‡ä»¶åç§°: K:\å•ç‰‡æœºç›¸å…³\ç”µå­å¤§èµ›ç¨‹åºæ¡†æ¶\SOFTWARE\TASK\SETUP.C
+* ä½œè€…:     å‘¨æ™¨é˜³ 
+* ç‰ˆæœ¬:    
+* æ—¥æœŸ:     2017/07/18
+* æè¿°:		åˆå§‹åŒ–å™¨ä»¶å’Œæµ‹è¯•å™¨ä»¶ä½¿ç”¨
+* å†å²ä¿®æ”¹è®°å½•:
+* <ä½œè€…> <æ—¶é—´> <ç‰ˆæœ¬ > <æè¿°>
 * 
 ***********************************************************/
 
@@ -24,18 +24,20 @@
 #include "../../HARDWARE/DEVICES/MOTOR/SERVO/SERVO.h"
 #include "../../HARDWARE/DEVICES/DISPLAY/1602/LCD1602.H"
 #include "../../HARDWARE/COMMON_HARDWARE/fixedPulser.h"
+
 #include "../ALGORITHM/PID/PID.h"
 
 
 
-/*************  ´®¿Ú1³õÊ¼»¯º¯Êı *****************/
+
+/*************  ä¸²å£1åˆå§‹åŒ–å‡½æ•° *****************/
 /*************************************************
-* º¯ÊıÃû³Æ: void    UART1_init(unsigned long BandRate)
-* ÃèÊö: ´®¿Ú1³õÊ¼»¯º¯Êı
-* ÊäÈë: unsigned long BandRate £º´®¿ÚµÄ²¨ÌØÂÊ£¬ÇëÔÚÊıÖµºó¼Ó×ÖÄ¸"L"£¬·ÀÖ¹³öÎÊÌâ
-* Êä³ö: µ÷ÓÃ´Ëº¯Êı»á·¢ËÍÒ»¶Î²âÊÔÓï¾ä ¡° STC15w4k58s4 UART1 is open ¡±
-* ·µ»ØÖµ: ÎŞ
-* ÆäËûËµÃ÷: ÎŞ
+* å‡½æ•°åç§°: void    UART1_init(unsigned long BandRate)
+* æè¿°: ä¸²å£1åˆå§‹åŒ–å‡½æ•°
+* è¾“å…¥: unsigned long BandRate ï¼šä¸²å£çš„æ³¢ç‰¹ç‡ï¼Œè¯·åœ¨æ•°å€¼ååŠ å­—æ¯"L"ï¼Œé˜²æ­¢å‡ºé—®é¢˜
+* è¾“å‡º: è°ƒç”¨æ­¤å‡½æ•°ä¼šå‘é€ä¸€æ®µæµ‹è¯•è¯­å¥ â€œ STC15w4k58s4 UART1 is open â€
+* è¿”å›å€¼: æ— 
+* å…¶ä»–è¯´æ˜: æ— 
 *************************************************/
 void    UART1_init(unsigned long BandRate)
 {
@@ -50,11 +52,23 @@ void    UART1_init(unsigned long BandRate)
 	COMx_InitStructure.UART_P_SW = UART1_SW_P30_P31;
 	COMx_InitStructure.UART_RXD_TXD_Short = DISABLE;
 	USART_Configuration(USART1, &COMx_InitStructure);
-	// PrintString1("STC15w4k58s4's UART1 is open \r\n");   //´®¿Ú²âÊÔ
+	// PrintString1("STC15w4k58s4's UART1 is open \r\n");   //ä¸²å£æµ‹è¯•
 }
 
 void setup(void)
 {
+
+	UART1_init(115200L);
+	timerInit();
+	Board_LED_Init();
+	Button_config();
+	ADC_config(ADC_P10, ADC_540T);
+	DC_MOTOR_config();
+	LCD1602_Init();
+	PID_config(PID_1,3.0f,0.02f,1.0f);
+	PID_setParameterInferiorLimit(PID_1,0.0f);
+	PID_setParameterUpperLimit(PID_1,200.0f);
+	EA = 1;
 
 
 }
