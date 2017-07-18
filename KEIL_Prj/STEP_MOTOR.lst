@@ -1,0 +1,167 @@
+C51 COMPILER V8.05a   STEP_MOTOR                                                           07/18/2017 10:24:41 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE STEP_MOTOR
+OBJECT MODULE PLACED IN .\STEP_MOTOR.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\DEVICES\MOTOR\STEP_MOTOR\STEP_MOTOR.C LARGE BROWSE DEBUG OBJ
+                    -ECTEXTEND PRINT(.\STEP_MOTOR.lst) TABS(2) OBJECT(.\STEP_MOTOR.obj)
+
+line level    source
+
+   1          /************************************************************
+   2          * 组织名称：
+   3          * 文件名称: K:\单片机相关\电子大赛程序框架\HARDWARE\DEVICES\MOTOR\STEP_MOTOR\STEP_MOTOR.C
+   4          * 作者:  周晨阳
+   5          * 版本:  1.0
+   6          * 日期:  2017/07/11
+   7          * 描述: 步进电机的驱动程序
+   8          * 历史修改记录:
+   9          * <作者> <时间> <版本 > <描述>
+  10          *
+  11          ***********************************************************/
+  12          
+  13          #include "STEP_MOTOR.H"
+  14          #include "../../../COMMON_HARDWARE/fixedPulser.h"
+  15          #define STEP_MOTOR_NUM 2 
+  16          typedef struct
+  17          {
+  18            u16 angle;//旋转角度
+  19            u8 state;//电机状态：停转（堵住），停转（自由态），旋转
+  20            u16 round;//旋转圈数
+  21            u8 speed;//旋转速度
+  22            float DIV;//步进电机单步角度值 ，如1.8°
+  23            u8 driverDiv;//步进电机驱动板上所选的角度细分值 2，4，8，16
+  24            u16 maxPeriod;  //步进电机所能承受的最大频率
+  25            u8 diversion;//电机转向
+  26          
+  27          
+  28          }StepMotor;
+  29          static  StepMotor g_stepMotor[STEP_MOTOR_NUM];
+  30          //enum {
+  31          //   RUNNING,FREE,LOCKED
+  32          //}g_stepMotor[0]=LOCKED;
+  33          
+  34          //************************************
+  35          // Method:    setStepMotorWithAngle
+  36          // FullName:  setStepMotorWithAngle
+  37          // Access:    public 
+  38          // Returns:   bit
+  39          // Qualifier: 设置步进电机的旋转角度
+  40          // Parameter: u8 motor：哪一个电机
+  41          // Parameter: u16 angle 旋转角度，不限于360°，可以超过360°
+  42          // Parameter: u8 speed：旋转速度，1-100
+  43          //************************************
+  44          bit setStepMotorWithAngle(u8 motor, float angle, u8 speed)
+  45          {
+  46   1        setPulse(motor, (u16)((1 + g_stepMotor[motor].maxPeriod / 99)*speed - (g_stepMotor[motor].maxPeriod / 99)
+             -), \
+  47   1          (u16)((angle*g_stepMotor[STEP_MOTOR_1].driverDiv) / g_stepMotor[STEP_MOTOR_1].DIV));
+  48   1        return 1;
+  49   1      }
+  50          //************************************
+  51          // Method:    setStepMotorWithRound
+  52          // FullName:  setStepMotorWithRound
+  53          // Access:    public 
+C51 COMPILER V8.05a   STEP_MOTOR                                                           07/18/2017 10:24:41 PAGE 2   
+
+  54          // Returns:   bit
+  55          // Qualifier: 设置步进电机的旋转圈数
+  56          // Parameter: u8 motor
+  57          // Parameter: u16 round
+  58          // Parameter: u8 speed
+  59          //************************************
+  60          bit setStepMotorWithRound(u8 motor, u16 round, u8 speed)
+  61          {
+  62   1        setStepMotorWithAngle(motor, 360 * round, speed);
+  63   1        return 1;
+  64   1      }
+  65          //************************************
+  66          // Method:    getStepMotorState
+  67          // FullName:  getStepMotorState
+  68          // Access:    public 
+  69          // Returns:   bit
+  70          // Qualifier: 读取步进电机当前的状态
+  71          // Parameter: u8 motor
+  72          //************************************
+  73          u8 getStepMotorState(u8 motor)
+  74          {
+  75   1        return g_stepMotor[motor].state;
+  76   1      }
+  77          bit setStepMotorDiversion(u8 motor)
+  78          {
+  79   1      
+  80   1        return 1;
+  81   1      }
+*** WARNING C280 IN LINE 77 OF ..\HARDWARE\DEVICES\MOTOR\STEP_MOTOR\STEP_MOTOR.C: 'motor': unreferenced local variable
+  82          //************************************
+  83          // Method:    close_StepMotor
+  84          // FullName:  close_StepMotor
+  85          // Access:    public 
+  86          // Returns:   void
+  87          // Qualifier: 关闭步进电机
+  88          // Parameter: u8 motor
+  89          //************************************
+  90          void close_StepMotor(u8 motor)
+  91          {
+  92   1        closePulser(motor);
+  93   1        g_stepMotor[motor].state = OFF;
+  94   1      
+  95   1      }
+  96          //************************************
+  97          // Method:    open_StepMotor
+  98          // FullName:  open_StepMotor
+  99          // Access:    public 
+ 100          // Returns:   void
+ 101          // Qualifier: 打开步进电机
+ 102          // Parameter: u8 motor
+ 103          //************************************
+ 104          void open_StepMotor(u8 motor)
+ 105          {
+ 106   1        openPulser(motor);
+ 107   1        g_stepMotor[motor].state = ON;
+ 108   1      }
+ 109          bit freeStepMotor(u8 motor)
+ 110          {
+ 111   1      
+ 112   1        return 1;
+ 113   1      }
+*** WARNING C280 IN LINE 109 OF ..\HARDWARE\DEVICES\MOTOR\STEP_MOTOR\STEP_MOTOR.C: 'motor': unreferenced local variable
+C51 COMPILER V8.05a   STEP_MOTOR                                                           07/18/2017 10:24:41 PAGE 3   
+
+ 114          bit lockStepMotor(u8 motor)
+ 115          {
+ 116   1      
+ 117   1        return 1;
+ 118   1      }
+*** WARNING C280 IN LINE 114 OF ..\HARDWARE\DEVICES\MOTOR\STEP_MOTOR\STEP_MOTOR.C: 'motor': unreferenced local variable
+ 119          //************************************
+ 120          // Method:    stepMotor_Init
+ 121          // FullName:  stepMotor_Init
+ 122          // Access:    public 
+ 123          // Returns:   void
+ 124          // Qualifier: 设置
+ 125          // div:步进电机步进角
+ 126          // driverDiv：驱动板细分值
+ 127          // maxPeriod：电机所能承受的最大启动频率
+ 128          //************************************
+ 129          void stepMotor_Init(u8 motor,float div,u8 driverDiv,u16 maxPeriod)
+ 130          {
+ 131   1        g_stepMotor[motor].DIV = div;//1.8°的步进角
+ 132   1        g_stepMotor[motor].driverDiv = driverDiv; //驱动板上使用8的细分
+ 133   1        g_stepMotor[motor].maxPeriod = maxPeriod;
+ 134   1        PulserInit();
+ 135   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    384    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     28      20
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  3 WARNING(S),  0 ERROR(S)

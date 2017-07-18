@@ -1,0 +1,34 @@
+C51 COMPILER V8.05a   STORAGE                                                              07/18/2017 10:24:40 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE STORAGE
+OBJECT MODULE PLACED IN .\storage.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\SOFTWARE\COMMON_SOFTWARE\STORAGE\storage.c LARGE BROWSE DEBUG OBJECTE
+                    -XTEND PRINT(.\storage.lst) TABS(2) OBJECT(.\storage.obj)
+
+line level    source
+
+   1          #include "storage.h"
+*** WARNING C322 IN LINE 54 OF ../HARDWARE/BSP/STC15_EEPROM.h: unknown identifier
+*** WARNING C322 IN LINE 54 OF ../HARDWARE/BSP/STC15_EEPROM.h: unknown identifier
+   2          #include <stdlib.h>
+   3          void writeData(u16 add,u8 *Data)
+   4          {
+   5   1        
+   6   1      }
+*** WARNING C280 IN LINE 3 OF ..\SOFTWARE\COMMON_SOFTWARE\STORAGE\STORAGE.C: 'add': unreferenced local variable
+*** WARNING C280 IN LINE 3 OF ..\SOFTWARE\COMMON_SOFTWARE\STORAGE\STORAGE.C: 'Data': unreferenced local variable
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     18    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----       5
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  4 WARNING(S),  0 ERROR(S)

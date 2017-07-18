@@ -1,0 +1,42 @@
+C51 COMPILER V8.05a   TASK                                                                 07/18/2017 10:24:39 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE TASK
+OBJECT MODULE PLACED IN .\task.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\SOFTWARE\TASK\task.c LARGE BROWSE DEBUG OBJECTEXTEND PRINT(.\task.lst
+                    -) TABS(2) OBJECT(.\task.obj)
+
+line level    source
+
+   1          /************************************************************
+   2          * 组织名称：
+   3          * 文件名称: K:\单片机相关\电子大赛程序框架\SOFTWARE\TASK\TASK.C
+   4          * 作者:     
+   5          * 版本:    
+   6          * 日期:     2017/07/06
+   7          * 描述:
+   8          * 历史修改记录:
+   9          * <作者> <时间> <版本 > <描述>
+  10          * 
+  11          ***********************************************************/
+  12          
+  13          #include "task.h"
+  14          #include "../COMMON_SOFTWARE/DATA_SCOPE/DataScope_DP.h"
+  15          #include "setup.h"
+  16          #include "../HARDWARE/BSP/USART1.h"
+  17          #include "../HARDWARE/DEVICES/SENSOR/ANGLE/ANGLE.h"
+  18          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
