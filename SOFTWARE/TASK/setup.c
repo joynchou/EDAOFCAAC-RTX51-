@@ -24,6 +24,7 @@
 #include "../../HARDWARE/DEVICES/MOTOR/SERVO/SERVO.h"
 #include "../../HARDWARE/DEVICES/DISPLAY/1602/LCD1602.H"
 #include "../../HARDWARE/COMMON_HARDWARE/fixedPulser.h"
+#include "../ALGORITHM/PID/PID.H"
 
 
 
@@ -58,7 +59,11 @@ void setup(void)
 	Board_LED_Init();
 	Button_config();
 	ADC_config(ADC_P10, ADC_540T);
+	DC_MOTOR_config();
 	LCD1602_Init();
+	PID_config(PID_1,3.0f,0.02f,1.0f);
+	PID_setParameterInferiorLimit(PID_1,0.0f);
+	PID_setParameterUpperLimit(PID_1,200.0f);
 	EA = 1;
 
 }
